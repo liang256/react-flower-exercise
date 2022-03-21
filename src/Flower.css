@@ -1,5 +1,5 @@
 .flower {
-    --containerLen: 500px;
+    --containerLen: 950px;
     position: relative;
     width: var(--containerLen);
     height: var(--containerLen);
@@ -8,7 +8,7 @@
 }
 
 .petal {
-    --radius: 80px;
+    --radius: 150px;
     position: absolute;
     left: 0px;
     top: 0px;
@@ -17,6 +17,8 @@
     height: calc(var(--radius) * 2);
     /* background: #ECECEC; */
     border: 2px solid blue;
+    display: flex;
+    justify-content: center;
 }
 
 .petal.center {
@@ -77,4 +79,11 @@
     */
     left: calc((0.5 * 2 - 1) * var(--radius) + var(--containerLen) / 2);
     top: calc(-1 * ((2 * -0.866 + 1) * var(--radius) - var(--containerLen) / 2));
+}
+
+.petalContent {
+    border: solid 1px;
+    height: fit-content;
+    margin-top: 56px;
+    margin-right: 4px;;
 }
