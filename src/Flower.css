@@ -1,0 +1,80 @@
+.flower {
+    --containerLen: 500px;
+    position: relative;
+    width: var(--containerLen);
+    height: var(--containerLen);
+    background: aqua;
+    border: 2px solid blue;
+}
+
+.petal {
+    --radius: 80px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    border-radius: 50%;
+    width: calc(var(--radius) * 2);
+    height: calc(var(--radius) * 2);
+    /* background: #ECECEC; */
+    border: 2px solid blue;
+}
+
+.petal.center {
+    background: red;
+    left: calc(var(--containerLen)/2 - var(--radius));
+    top: calc(var(--containerLen)/2 - var(--radius));
+}
+
+.petal.degree0 {
+    /* 
+        cos(0) = 1
+        sin(0) = 0
+    */
+    left: calc(var(--radius) + var(--containerLen) / 2);
+    top: calc(-1 * (var(--radius) - var(--containerLen) / 2));
+}
+
+.petal.degree60 {
+    /* 
+        cos(60) = 0.5
+        sin(60) = 0.866
+    */
+    left: calc((0.5 * 2 - 1) * var(--radius) + var(--containerLen) / 2);
+    top: calc(-1 * ((2 * 0.866 + 1) * var(--radius) - var(--containerLen) / 2));
+}
+
+.petal.degree120 {
+    /* 
+        cos(120) = -0.5
+        sin(120) = 0.866
+    */
+    left: calc((-0.5 * 2 - 1) * var(--radius) + var(--containerLen) / 2);
+    top: calc(-1 * ((2 * 0.866 + 1) * var(--radius) - var(--containerLen) / 2));
+}
+ 
+.petal.degree180 {
+    /* 
+        cos(120) = -1
+        sin(120) = 0
+    */
+    left: calc((-1 * 2 - 1) * var(--radius) + var(--containerLen) / 2);
+    top: calc(-1 * (var(--radius) - var(--containerLen) / 2));
+}
+
+.petal.degree240 {
+    /* 
+        cos(120) = -0.5
+        sin(120) = -0.866
+    */
+    left: calc((-0.5 * 2 - 1) * var(--radius) + var(--containerLen) / 2);
+    top: calc(-1 * ((2 * -0.866 + 1) * var(--radius) - var(--containerLen) / 2));
+}
+
+.petal.degree300 {
+    /* 
+        cos(120) = 0.5
+        sin(120) = -0.866
+    */
+    left: calc((0.5 * 2 - 1) * var(--radius) + var(--containerLen) / 2);
+    top: calc(-1 * ((2 * -0.866 + 1) * var(--radius) - var(--containerLen) / 2));
+}

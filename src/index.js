@@ -4,9 +4,39 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import './Flower.css';
+
+class Flower extends React.Component {
+    render() {
+      return (
+        <div class="flower">
+            flower
+            <Petal petalPosition="center"/>
+            <Petal petalPosition="degree0"/>
+            <Petal petalPosition="degree60"/>
+            <Petal petalPosition="degree120"/>
+            <Petal petalPosition="degree180"/>
+            <Petal petalPosition="degree240"/>
+            <Petal petalPosition="degree300"/>
+        </div>
+      );
+    }
+}
+
+class Petal extends React.Component {
+  render() {
+    const petalPosition = this.props.petalPosition ?? ''
+    return (
+      <div className={'petal ' + petalPosition}>
+          petal
+      </div>
+    );
+  }
+}
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Flower />
   </React.StrictMode>,
   document.getElementById('root')
 );
