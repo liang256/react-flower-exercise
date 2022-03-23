@@ -1,0 +1,28 @@
+.row {
+    display: flex;
+    width: 600px;
+}
+
+.column {
+    padding: 0;
+    border: solid 0.1px;
+    width: 50%;
+}
+
+.header {
+    font-weight: bold;
+    margin: 0.4rem;
+}
+
+.factor {
+    background-color: aquamarine;
+    border: solid 0.1px;
+}
+
+.row.space-evenly {
+    justify-content: space-evenly;
+}
+
+button {
+    margin: 0.4rem;
+}

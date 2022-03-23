@@ -5,6 +5,7 @@ import HomePage from './HomePage';
 import PurposePage from './PurposePage';
 import ColleagueFactors from './ColleagueFactors';
 import Compare from './Compare';
+import OptionTable from './OptionTable';
 
 function App() {
   return (
@@ -37,6 +38,9 @@ function App() {
             </Route>
             <Route path='/compare'>
               <Compare/>
+            </Route>
+            <Route path='/options'>
+              <OptionTable/>
             </Route>
         </Switch>
     </div>
