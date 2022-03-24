@@ -1,0 +1,19 @@
+.optionContainer {
+    display: flex;
+}
+
+.option {
+    color: white;
+    background-color: gray;
+    padding: .5em;
+    border-radius: .3em;
+    margin: .4em;
+}
+
+.option.optionLeft {
+    background-color: rgb(82, 124, 230);
+}
+
+.option.optionRight {
+    background-color: rgb(242, 70, 70);
+}
