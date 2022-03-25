@@ -1,123 +1,147 @@
 import React from 'react'
+import { 
+  Link,
+  useSearchParams,
+  Redirect
+} from 'react-router-dom'
 import './Compare.css'
 
 class Compare extends React.Component {
-    constructor(props) {
-        super(props)
-        
-        const factors = ['情緒化', '一板一眼', '沒有共同興趣', '常推卸責任', '反應慢']
+  constructor (props) {
+    super(props)
 
-        this.state = {
-            factors: factors,
-            history: [],
-            queue: generatePairsByIndex(factors),
-            point: 1
+    this.state = {
+      history: [],
+      queue: generatePairsByIndex(this.props.factors),
+      point: 1
+    }
+  }
+
+  handleClickOption (pair, id, point) {
+    // console.log(pair + ': option(' + id + ') is selected')
+    const history = this.state.history
+    const result = { pair: pair, winner: parseInt(id), point: point }
+    let queue = this.state.queue.filter(uncomparePair => uncomparePair !== pair)
+    let statePoint = this.state.point
+    history.push(result)
+
+    // check if game end
+    if (queue.length == 0) {
+      // check if same score
+      console.log('end, checking if need next round...')
+      const score = countScore(history, this.props.factors)
+      console.log('print score', score)
+      const scoreFactorIdMap = {}
+      for (const factor of score) {
+        if (scoreFactorIdMap[factor.score] === undefined) {
+          scoreFactorIdMap[factor.score] = []
         }
-    }
-
-    handleClickOption(pair, id, point) {
-        // console.log(pair + ': option(' + id + ') is selected')
-        const history = this.state.history
-        const result = {pair: pair, winner: id, point: point}
-        var queue = this.state.queue.filter(uncomparePair => uncomparePair !== pair)
-        var statePoint = this.state.point
-        history.push(result)
-
-        // check if game end
-        const score = countScore(history)
-        // console.log(score)
-        if (queue.length == 0) {
-            // check if same score
-            console.log('end, checking if need next round...')
-            const scoreFactorIdMap = {}
-            for (const factorId in score) {
-                const factorScore = score[factorId]
-                if (scoreFactorIdMap[factorScore] ===  undefined) {
-                    scoreFactorIdMap[factorScore] = []
-                } 
-                scoreFactorIdMap[factorScore].push(factorId)
-            }
-            console.log('print out score map:')
-            console.log(scoreFactorIdMap)
-            var needNextRound = false
-            for (const score in scoreFactorIdMap) {
-                // console.log(factorIds)
-                const factorIds = scoreFactorIdMap[score]
-                if (factorIds.length > 1) {
-                    needNextRound = true
-                    queue = queue.concat(generatePairsByValue(factorIds))
-                }
-            }
-            if (needNextRound) {console.log('yes, we need next round...')}
-            statePoint = needNextRound ? (statePoint / 2) : statePoint
+        scoreFactorIdMap[factor.score].push(factor.id)
+      }
+      console.log('print out score map:')
+      console.log(scoreFactorIdMap)
+      let needNextRound = false
+      for (const score in scoreFactorIdMap) {
+        // console.log(factorIds)
+        const factorIds = scoreFactorIdMap[score]
+        if (factorIds.length > 1) {
+          needNextRound = true
+          queue = queue.concat(generatePairsByValue(factorIds))
         }
-
-        this.setState({history: history, queue: queue, point: statePoint})
+      }
+      if (needNextRound) { 
+        console.log('yes, we need next round...')
+        statePoint *= 0.5
+      }
     }
 
-    render() {
-        const factors = this.state.factors
-        const status = 'factors: ' + this.state.factors
-        const history = this.state.history
-        const point = this.state.point
-        var queue = this.state.queue
+    this.setState({ history: history, queue: queue, point: statePoint })
+  }
 
-        const comparePairs = queue.map(pair => {
-            const ids = pair.split("-")
-            const l_i = ids[0]
-            const r_i = ids[1]
-            return (
-                <div key={pair} className='optionContainer'>
-                    <div key={pair + '_' + l_i} className='option optionLeft' onClick={() => this.handleClickOption(pair, l_i, point)}>{factors[l_i]}</div>
-                    <div key={pair + '_' + r_i} className='option optionRight' onClick={() => this.handleClickOption(pair, r_i, point)}>{factors[r_i]}</div>
-                </div>
-            )
-        })
+  render () {
+    const factors = this.props.factors
+    const status = 'factors: ' + this.props.factors.length
+    const point = this.state.point
+    const queue = this.state.queue
 
-        return (
-            <div>
-                <span>{status}</span>
-                {comparePairs}
-                {/* <span>{score}</span> */}
-            </div>
-        )
+    // If the compare ends
+    if (queue.length == 0) {
+      const history = this.state.history
+      const factors = this.props.factors
+      const score = countScore(history, factors)
+      console.log('final his', history)
+      console.log('final score', score)
+      const sortedFactors = score.sort((a, b) => {
+        return a.score - b.score
+      }).map(factor => factors[factor.id])
+      console.log(factors, sortedFactors)
+      return (<Link to={
+        '/rewrite?cate=' + this.props.cate
+        + '&title=' + this.props.title
+        + '&factors=' + sortedFactors
+      }>
+        Next Step
+      </Link>)
     }
+
+    const comparePairs = queue.map(pair => {
+      const ids = pair.split('-')
+      const l_i = ids[0]
+      const r_i = ids[1]
+      return (
+        <div key={pair} className='optionContainer'>
+            <div key={pair + '_' + l_i} className='option optionLeft' onClick={() => this.handleClickOption(pair, l_i, point)}>{factors[l_i]}</div>
+            <div key={pair + '_' + r_i} className='option optionRight' onClick={() => this.handleClickOption(pair, r_i, point)}>{factors[r_i]}</div>
+        </div>
+      )
+    })
+
+    return (
+      <div>
+          <span>{status}</span>
+          {comparePairs}
+      </div>
+    )
+  }
 }
 
-function countScore(history) {
-    const score = {}
-    for (const result of history) {
-        if (score[result.winner] === undefined) {
-            score[result.winner] = result.point
-        } else {
-            score[result.winner] += result.point
-        }
+function countScore (history, factors) {
+  var score = factors.map((factor, index) => {
+    return {id: index, score: 0}
+  })
+  for (const result of history) {
+    var targetIndex = score.findIndex(row => row.id === parseInt(result.winner))
+    if (targetIndex === -1) {
+      score.push({id: result.winner, score: result.point})
+    } else {
+      score[targetIndex].score += result.point
     }
-    return score
+  }
+  return score
 }
 
-function generatePairsByIndex(factors) {
-    const queue = []
-    const fac_len = factors.length
-    for (var l_i = 0; l_i < fac_len - 1; l_i++) {
-        for (var r_i = l_i + 1; r_i < fac_len; r_i++) {
-            const key = l_i + '-' + r_i
-            queue.push(key)
-        }
+function generatePairsByIndex (factors) {
+  const queue = []
+  const fac_len = factors.length
+  for (let l_i = 0; l_i < fac_len - 1; l_i++) {
+    for (let r_i = l_i + 1; r_i < fac_len; r_i++) {
+      const key = l_i + '-' + r_i
+      queue.push(key)
     }
-    return queue
+  }
+  return queue
 }
 
-function generatePairsByValue(ids) {
-    const queue = []
-    const len = ids.length
-    for (var l_i = 0; l_i < len - 1; l_i++) {
-        for (var r_i = l_i + 1; r_i < len; r_i++) {
-            const key = ids[l_i] + '-' + ids[r_i]
-            queue.push(key)
-        }
+function generatePairsByValue (ids) {
+  const queue = []
+  const len = ids.length
+  for (let l_i = 0; l_i < len - 1; l_i++) {
+    for (let r_i = l_i + 1; r_i < len; r_i++) {
+      const key = ids[l_i] + '-' + ids[r_i]
+      queue.push(key)
     }
-    return queue
+  }
+  return queue
 }
 
 export default Compare
