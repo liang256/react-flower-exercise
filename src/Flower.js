@@ -66,13 +66,17 @@ class Flower extends React.Component {
             flower
             <Petal key='purpose' petalPosition="center" contents={purposeContents}/>
             <Petal key='knowledge' petalPosition="degree0" contents={knowledgeContents}/>
-            <Petal key='env' petalPosition="degree60" contents={envContents}/>
+            <Link to="/make-options?cate=env&title=我最愛的工作環境">
+              <Petal key='env' petalPosition="degree60" contents={envContents}/>
+            </Link>
             <Link to="/make-options?cate=colleague&title=我偏好一起工作的人">
               <Petal petalPosition="degree120" contents={colleagueContents}/>
             </Link>
             <Petal key='skill' petalPosition="degree180" contents={skillContents}/>
             <Petal key='salary' petalPosition="degree240" contents={salaryContents}/>
-            <Petal key='place' petalPosition="degree300" contents={placeContents}/>
+            <Link to="/make-options?cate=place&title=我偏好的地理優點">
+              <Petal key='place' petalPosition="degree300" contents={placeContents}/>
+            </Link>
         </div>
     )
   }

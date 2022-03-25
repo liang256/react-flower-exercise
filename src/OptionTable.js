@@ -1,6 +1,7 @@
 import React from 'react'
 import './OptionTable.css'
 import { Link } from 'react-router-dom'
+import getColDesc from './OptionTableConfig'
 
 class OptionTable extends React.Component {
   constructor (props) {
@@ -109,21 +110,29 @@ class OptionTable extends React.Component {
       )
     })
 
+    const colDesc = getColDesc(this.props.cate, this.props.title)
+
+    if (colDesc === undefined) {
+      return <div>unvalid category and title given</div>
+    }
+
     return (
             <div>
                 <div className='table'>
                     <div className='row'>
                         <div className='column row space-evenly'>
-                            <span className='header'>人生至今工作過的地方</span>
+                            <span className='header'>{colDesc[0].header}</span>
                         </div>
                         <div className='column row space-evenly'>
-                            <span className='header'>在這些地方讓我很崩潰的人</span>
+                            <span className='header'>{colDesc[1].header}</span>
                         </div>
                     </div>
                     <div className='row'>
-                        <textarea className='column' rows="20" placeholder="寫下至今工作過的地方，好方便回憶"></textarea>
+                        <textarea className='column' rows="20" placeholder={colDesc[0].placeholder}></textarea>
                         <div className='column'>
-                            <div className='factorContainer' onClick={() => this.handleClick()}>{factors}</div>
+                            <div className='factorContainer' onClick={() => this.handleClick()}>
+                              {factors.length == 0 ? colDesc[1].placeholder : factors}
+                            </div>
                             <div className='newFactorInputContainer'>
                                 <input
                                     className='newFactorInput'
