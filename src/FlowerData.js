@@ -1,6 +1,6 @@
 export default function updateRow(cate, title, newCotent) {
 
-    let data = sessionStorage.getItem('flowerData');
+    let data = JSON.parse(sessionStorage.getItem('flowerData'));
     if (! Array.isArray(data)) {
         data = []
     }
