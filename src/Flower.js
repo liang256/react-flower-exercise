@@ -75,7 +75,9 @@ class Flower extends React.Component {
             <Link to="/stories">
               <Petal key='skill' petalPosition="degree180" contents={skillContents}/>
             </Link>
-            <Petal key='salary' petalPosition="degree240" contents={salaryContents}/>
+            <Link to='/salary'> 
+              <Petal key='salary' petalPosition="degree240" contents={salaryContents}/>
+            </Link>
             <Link to="/make-options?cate=place&title=我偏好的地理優點">
               <Petal key='place' petalPosition="degree300" contents={placeContents}/>
             </Link>
