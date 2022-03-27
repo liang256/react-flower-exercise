@@ -6,7 +6,8 @@ import reportWebVitals from './reportWebVitals'
 import {
   BrowserRouter,
   Routes,
-  Route
+  Route,
+  Outlet
 } from 'react-router-dom'
 import MakeOptions from './routes/makeOptions'
 import Invoices from './routes/invoices'
@@ -14,6 +15,9 @@ import Invoice from './routes/invoice'
 import Flower from './Flower'
 import CompareMaster from './routes/CompareMaster'
 import Rewrite from './Rewrite'
+import Stories from './routes/stories'
+import Story from './routes/Story'
+import Analysis from './routes/Analysis'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -25,6 +29,13 @@ ReactDOM.render(
             element={<Flower />}
           />
           <Route path="make-options" element={<MakeOptions />} />
+          <Route path='stories' element={<Outlet/>} >
+            <Route index element={<div><h2>story index</h2><Stories/></div>}/>
+            <Route path=":storyId" element={<Outlet/>}>
+              <Route index element={<Story/>} />
+              <Route path='analysis' element={<Analysis />}/>
+            </Route>
+          </Route>
           <Route path="compare" element={<CompareMaster />} />
           <Route path='rewrite' element={<Rewrite />} />
           <Route path="invoices" element={<Invoices />}>

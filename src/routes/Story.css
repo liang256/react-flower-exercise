@@ -1,0 +1,18 @@
+.storyTitle {
+    width: auto;
+    padding: 0;
+    margin:1rem 0;
+}
+
+.storyContent {
+    /* position: absolute; */
+    max-width: 600px;
+    height: 500px;
+    margin-bottom: 1rem;
+}
+
+textarea {
+    /* position: relative; */
+    height: 100%;
+    width: 100%;
+}
