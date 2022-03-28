@@ -64,7 +64,9 @@ class Flower extends React.Component {
 
         <div className="flower">
             flower
-            <Petal key='purpose' petalPosition="center" contents={purposeContents}/>
+            <Link to='/plazas'>
+              <Petal key='purpose' petalPosition="center" contents={purposeContents}/>
+            </Link>
             <Petal key='knowledge' petalPosition="degree0" contents={knowledgeContents}/>
             <Link to="/make-options?cate=env&title=我最愛的工作環境">
               <Petal key='env' petalPosition="degree60" contents={envContents}/>

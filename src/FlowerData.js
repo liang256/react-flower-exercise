@@ -26,3 +26,16 @@ export default function updateRow(cate, title, newCotent) {
     // console.log(JSON.stringify(data))
     sessionStorage.setItem('flowerData', JSON.stringify(data))
 }
+
+export function getRow(cate, title) {
+    let data = sessionStorage.getItem('flowerData')
+    if (data === null) {
+        return undefined
+    }
+    try {
+        data = JSON.parse(data)
+    } catch (e) {
+        return undefined
+    }
+    return data.find(row => row.category == cate && row.title == title)
+}

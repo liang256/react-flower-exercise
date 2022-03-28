@@ -1,0 +1,28 @@
+.plazaCardContainer {
+    max-width: 500px
+}
+
+.plazaCard {
+    border: dashed lightgray 0.1px;
+    max-width: 250px;
+    margin: .5rem;
+    padding: .3rem;
+    cursor: pointer;
+}
+
+.plazaCard.selected {
+    border: solid black 0.2px;
+    background-color: lightgray;
+}
+
+textarea {
+    margin: .5rem;
+    padding: .3rem;
+    max-width: 250px;
+    min-height: 100px;
+    display: block;
+}
+
+label {
+    display: block;
+}

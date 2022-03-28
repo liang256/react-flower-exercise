@@ -19,6 +19,7 @@ import Stories from './routes/stories'
 import Story from './routes/Story'
 import Analysis from './routes/Analysis'
 import Salary from './routes/Salary'
+import Plazas from './routes/Plazas'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -40,6 +41,7 @@ ReactDOM.render(
           <Route path="compare" element={<CompareMaster />} />
           <Route path='rewrite' element={<Rewrite />} />
           <Route path='salary' element={<Salary />}/>
+          <Route path='plazas' element={<Plazas/>}/>
           <Route path="invoices" element={<Invoices />}>
             <Route
               index
