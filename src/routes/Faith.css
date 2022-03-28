@@ -1,0 +1,15 @@
+.factor {
+    display: flex;
+    margin: .2rem;
+    background-color: transparent;
+    padding: .2rem;
+    border: none;
+}
+
+.factorContainer {
+    margin-bottom: 1rem;
+}
+
+.row {
+    display: flex;
+}

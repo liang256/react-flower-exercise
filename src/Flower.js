@@ -1,6 +1,7 @@
 import React from 'react'
 import './Flower.css'
 import { Link } from 'react-router-dom'
+import {getContentUrl} from './PetalUrlConfig'
 
 class Flower extends React.Component {
   constructor(props) {
@@ -59,30 +60,18 @@ class Flower extends React.Component {
           break
       }
     })
-    console.log(colleagueContents)
+ 
     return (
 
         <div className="flower">
             flower
-            <Link to='/plazas'>
-              <Petal key='purpose' petalPosition="center" contents={purposeContents}/>
-            </Link>
+            <Petal key='purpose' petalPosition="center" contents={purposeContents}/>
             <Petal key='knowledge' petalPosition="degree0" contents={knowledgeContents}/>
-            <Link to="/make-options?cate=env&title=我最愛的工作環境">
-              <Petal key='env' petalPosition="degree60" contents={envContents}/>
-            </Link>
-            <Link to="/make-options?cate=colleague&title=我偏好一起工作的人">
-              <Petal petalPosition="degree120" contents={colleagueContents}/>
-            </Link>
-            <Link to="/stories">
-              <Petal key='skill' petalPosition="degree180" contents={skillContents}/>
-            </Link>
-            <Link to='/salary'> 
-              <Petal key='salary' petalPosition="degree240" contents={salaryContents}/>
-            </Link>
-            <Link to="/make-options?cate=place&title=我偏好的地理優點">
-              <Petal key='place' petalPosition="degree300" contents={placeContents}/>
-            </Link>
+            <Petal key='env' petalPosition="degree60" contents={envContents}/>
+            <Petal petalPosition="degree120" contents={colleagueContents}/>
+            <Petal key='skill' petalPosition="degree180" contents={skillContents}/>
+            <Petal key='salary' petalPosition="degree240" contents={salaryContents}/>
+            <Petal key='place' petalPosition="degree300" contents={placeContents}/>
         </div>
     )
   }
@@ -91,7 +80,11 @@ class Flower extends React.Component {
 class Petal extends React.Component {
   render () {
     const petalPosition = this.props.petalPosition ?? ''
-    const petalContents = this.props.contents.map(content => <Content key={content.title} data={content}/>)
+    const petalContents = this.props.contents.map(content => {
+      return(
+        <Content key={content.title} data={content}/>
+      )
+    })
     return (
       <div className={'petal ' + petalPosition}>
           {petalContents}
@@ -104,12 +97,14 @@ class Content extends React.Component {
   render () {
     return (
       <div className='petalContent'>
+        <Link to={getContentUrl(this.props.data.category,this.props.data.title)}>
         <strong>{this.props.data.title + ':'}</strong>
         {
           this.props.data.sortedFactors.length == 0
             ? <ContentText text={this.props.data.text}/>
             : <FactorsList factors={this.props.data.sortedFactors}/>
         }
+        </Link>
       </div>
     )
   }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import updateRow from '../FlowerData';
+import {updateRow} from '../FlowerData';
 
 function Salary() {
     const salary = getSalary()

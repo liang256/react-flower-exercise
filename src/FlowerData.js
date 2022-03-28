@@ -1,4 +1,15 @@
-export default function updateRow(cate, title, newCotent) {
+export default function initFlowerData() {
+    //
+}
+
+/**
+ * 
+ * @param {string} cate 
+ * @param {string} title 
+ * @param {string|array} newCotent 
+ * @returns {object|undefined}
+ */
+export function updateRow(cate, title, newCotent) {
 
     let data = JSON.parse(sessionStorage.getItem('flowerData'));
     if (! Array.isArray(data)) {
@@ -27,6 +38,12 @@ export default function updateRow(cate, title, newCotent) {
     sessionStorage.setItem('flowerData', JSON.stringify(data))
 }
 
+/**
+ * 
+ * @param {string} cate 
+ * @param {string} title 
+ * @returns {object|undefined}
+ */
 export function getRow(cate, title) {
     let data = sessionStorage.getItem('flowerData')
     if (data === null) {

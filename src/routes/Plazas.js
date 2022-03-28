@@ -4,7 +4,7 @@ import React, {
 } from 'react'
 import { Link } from 'react-router-dom'
 import './Plazas.css'
-import updateRow, { getRow } from '../FlowerData'
+import { updateRow, getRow } from '../FlowerData'
 
 function Plazas() {
     const cate = 'purpose'
