@@ -5,20 +5,12 @@ import React, {
 import { Link } from 'react-router-dom'
 import {updateRow, getRow} from '../FlowerData'
 import './Faith.css'
+import {getQuestions} from '../FaithConfig'
 
 function Faith() {
     const cate = 'purpose'
     const title = '我的人生哲學'
-    const factors = [
-        {
-            name: '美',
-            question: '什麼樣的美會觸動你？美存在這世界上的功能是什麼？'
-        },
-        {
-            name: '行為',
-            question: '你認為我們在這世界上應有什麼樣的作為？'
-        },
-    ]
+    const factors = getQuestions()
 
     const [notes, setNotes] = useState(Array(factors.length).fill(''))
     const [editingFactorIndex, setEditingFacotrIndex] = useState(null)
