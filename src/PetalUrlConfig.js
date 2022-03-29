@@ -8,6 +8,7 @@ const urls = {
     salary其他期望得到的報酬: '/salary',
     purpose我的人生目標與使命: '/plazas',
     purpose我的人生哲學: '/faith',
+    knowledge我最愛的知識或興趣: '/knowledges'
 }
 
 /**

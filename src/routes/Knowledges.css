@@ -1,0 +1,14 @@
+.box {
+    width: 400px;
+    height: 200px;
+    border: solid 0.1px;
+}
+
+.row {
+    display: flex;
+}
+
+.factor {
+    background-color: deepskyblue;
+    width: fit-content;
+}
