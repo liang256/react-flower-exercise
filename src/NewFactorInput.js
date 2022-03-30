@@ -9,8 +9,15 @@ function NewFactorInput(props) {
             e.target.value = ''
         }
     }
+
+    const handleClick = (e) => {
+        e.stopPropagation()
+        props.setEditingIndex(null)
+    }
+
     return (
         <input
+            onClick={(e) => handleClick(e)}
             className='newFactorInput'
             placeholder={props.placeholder == undefined ? '新增因素' : props.placeholder}
             onKeyDown={(e) => handleKeyDown(e)}

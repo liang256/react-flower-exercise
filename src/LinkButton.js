@@ -3,12 +3,18 @@ import { Link } from 'react-router-dom'
 import './LinkButton.css'
 
 function LinkButton(props) {
+
+  if (!props.enable) {
+    return (
+      <div className='linkButton disable'>
+        <span>{props.text}</span>
+      </div>
+    )
+  }
   return (
-    // <button className='linkButton'>
-      <Link to={props.to} className='linkButton'>
+    <Link to={props.to} className='linkButton'>
           <span>{props.text}</span>
-      </Link>
-    // </button>
+    </Link>
   )
 }
 

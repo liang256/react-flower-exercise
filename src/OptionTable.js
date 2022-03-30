@@ -1,185 +1,145 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './OptionTable.css'
-import { Link } from 'react-router-dom'
 import getColDesc from './OptionTableConfig'
 import LinkButton from './LinkButton'
+import Factor from './Factor'
+import NewFactorInput from './NewFactorInput'
+import Info from './Info'
 
-class OptionTable extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      factors: [],
-      editingKey: null
-    }
+function OptionTable (props) {
+  const defaultFactors = props.cate == 'colleague' ? ['易怒 (範例)'] : []
+  const [factors, setFactors] = useState(defaultFactors)
+  const [editingFactorIndex, setEditingFactorIndex] = useState(null)
+  const [nextStepBtnEnable, setNextStepBtnEnable] = useState(false)
+
+  const removeFactor = (i) => {
+    const newFactors = factors.filter((f, index) => index !== i)
+    setFactors(newFactors)
+    canEnableNextStepBtn(newFactors)
   }
 
-  handleFactorClick (key) {
-    console.log('factor click', key)
-    this.setState({
-      editingKey: key
-    })
+  const canEnableNextStepBtn = (f) => {
+    setNextStepBtnEnable(f.length >= 5)
   }
 
-  handleFactorInputKeyDown (e) {
-    if (e.key === 'Enter') {
-      // update target factor
-      const key = e.target.defaultValue
-      const newValue = e.target.value
-      const newFactors = this.state.factors.slice()
-
-      // check if duplicated factor given
-      if (!newFactors.includes(newValue)) {
-        for (let i = 0; i < newFactors.length; i++) {
-          if (newFactors[i] == key) {
-            if (newValue == '') {
-              // remove the factor
-              newFactors.splice(i, 1)
-            } else {
-              newFactors[i] = newValue
-            }
-          }
+  const updateFactor = (i, newVal) => {
+    let newFactors = factors.slice()
+    let hasSameVal = newFactors.findIndex(f => f === newVal)
+    hasSameVal = (hasSameVal !== -1)
+    if (!hasSameVal) {
+      newFactors = newFactors.map((f, index) => {
+        if (index === i) {
+          return newVal
         }
-      }
-
-      this.setState({
-        factors: unique(newFactors),
-        editingKey: null
+        return f
       })
+      setFactors(newFactors)
     }
+    setEditingFactorIndex(null)
   }
 
-  handleSortClick () {
-    console.log('start to sort: ', this.state.factors)
-  }
-
-  handleClick () {
-    const editingKey = this.state.editingKey
-    const currFactors = this.state.factors.slice()
-    console.log('factor container hit', editingKey, currFactors)
-
-    // if user is editing one of the existing factors
-    if (editingKey === '') {
-      // user is editing a new factor and click outside
-      // so remove the new factor even if he already types something
-      for (let i = 0; i < currFactors.length; i++) {
-        if (currFactors[i] === '') {
-          currFactors.splice(i, 1)
-        }
-      }
-      this.setState({ factors: currFactors, editingKey: null })
-    } else if (editingKey !== null) {
-      this.setState({ editingKey: null })
+  const createFactor = (val) => {
+    const newFactors = factors.slice()
+    let hasSameVal = newFactors.findIndex(f => f === val)
+    hasSameVal = (hasSameVal !== -1)
+    if (!hasSameVal) {
+      newFactors.push(val)
+      setFactors(newFactors)
     }
+    canEnableNextStepBtn(newFactors)
   }
 
-  handleClickDelete (key) {
-    console.log('click delete', key)
-    const newFactors = this.state.factors.slice()
-    for (let i = 0; i < newFactors.length; i++) {
-      if (newFactors[i] === key) {
-        newFactors.splice(i, 1)
-      }
-    }
-    this.setState({ factors: newFactors })
+  const startToEditFactor = (i) => {
+    setEditingFactorIndex(i)
   }
 
-  handleNewFactorInputKeyDown (e) {
-    const input = e.target
-    const inputVal = e.target.value
-    const isEnter = (e.key === 'Enter' || e.keyCode === 13)
-
-    if (isEnter && inputVal !== '') {
-      const newFactors = this.state.factors.slice()
-      newFactors.push(inputVal)
-      this.setState({ factors: unique(newFactors) })
-      // TODO: 中文輸入的 enter 不會清空
-      input.value = ''
-    }
+  const handleClick = () => {
+    setEditingFactorIndex(null)
   }
 
-  render () {
-    const factors = this.state.factors.map((factor) => {
+    const factorElements = factors.map((factor, index) => {
       return (
-                <Factor
-                    value={factor}
-                    isEditing={this.state.editingKey == factor}
-                    key={factor}
-                    onClick={() => this.handleFactorClick(factor)}
-                    onKeyDown={(e) => this.handleFactorInputKeyDown(e)}
-                    onClickDelete = {() => this.handleClickDelete(factor)}
-                />
+          <Factor
+              value={factor}
+              isEditing={editingFactorIndex == index}
+              key={factor}
+              index={index}
+              removeFactor={removeFactor}
+              updateFactor={updateFactor}
+              startToEditFactor={startToEditFactor}
+          />
       )
     })
 
-    const colDesc = getColDesc(this.props.cate, this.props.title)
+    const colDesc = getColDesc(props.cate, props.title)
 
     if (colDesc === undefined) {
       return <div>unvalid category and title given</div>
     }
 
     return (
-            <div>
-                <div className='table'>
-                    <div className='row'>
-                        <div className='column row space-evenly'>
-                            <span className='header'>{colDesc[0].header}</span>
-                        </div>
-                        <div className='column row space-evenly'>
-                            <span className='header'>{colDesc[1].header}</span>
-                        </div>
-                    </div>
-                    <div className='row'>
-                        <div className='column'>
-                          <textarea autoFocus={true} rows="20" placeholder={colDesc[0].placeholder}></textarea>
-                        </div>
-                        <div className='column'>
-                            <div className='factorContainer' onClick={() => this.handleClick()}>
-                              {factors.length == 0 ? colDesc[1].placeholder : factors}
-                            </div>
-                            <div className='newFactorInputContainer'>
-                                <input
-                                    className='newFactorInput'
-                                    placeholder='新增因素'
-                                    onKeyDown={(e) => this.handleNewFactorInputKeyDown(e)}
-                                ></input>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className='row center buttonContainer'>
-                  <LinkButton 
-                    to={
-                      '/compare?cate=' + this.props.cate
-                      + '&title=' + this.props.title
-                      + '&factors=' + this.state.factors
-                    }
-                    text = 'Sort'
-                  />
-                </div>
-            </div>
+      <div>
+          <div className='table'>
+              <div className='row'>
+                  <div className='column row space-evenly'>
+                      <span className='header'>{colDesc[0].header}</span>
+                  </div>
+                  <div className='column row space-evenly'>
+                      <span className='header'>{colDesc[1].header} <Info text={colDesc[1].placeholder}/></span>
+                  </div>
+              </div>
+              <div className='row'>
+                  <div className='column'>
+                    <textarea autoFocus={true} rows="20" placeholder={colDesc[0].placeholder}></textarea>
+                  </div>
+                  <div className='column'>
+                      <div className='factorContainer' onClick={handleClick}>
+                        {factorElements}
+                      </div>
+                      <div className='newFactorInputContainer'>
+                          <NewFactorInput
+                            setEditingIndex={setEditingFactorIndex}
+                            createFactor={createFactor}
+                          />
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div className='row center buttonContainer'>
+            <LinkButton 
+              to={
+                '/compare?cate=' + props.cate
+                + '&title=' + props.title
+                + '&factors=' + factors
+              }
+              text = 'Sort'
+              enable = {nextStepBtnEnable}
+            />
+          </div>
+      </div>
     )
-  }
+
 }
 
-function Factor (props) {
-  return (
-        <div
-            className='editableFactor'
-            onClick={(e) => { e.stopPropagation(); props.onClick() }}
-        >
-            <button className='factorDeleteButton' onClick={(e) => { e.stopPropagation(); props.onClickDelete() }}>
-              <span>x</span>
-            </button>
-            <span className='factorText'>
-            {
-                props.isEditing
-                  ? <input className='factorEditingInput' defaultValue={props.value} onKeyDown={(e) => props.onKeyDown(e)} autoFocus></input>
-                  : props.value
-            }
-            </span>
-        </div>
-  )
-}
+// function Factor (props) {
+//   return (
+//         <div
+//             className='editableFactor'
+//             onClick={(e) => { e.stopPropagation(); props.onClick() }}
+//         >
+//             <button className='factorDeleteButton' onClick={(e) => { e.stopPropagation(); props.onClickDelete() }}>
+//               <span>x</span>
+//             </button>
+//             <span className='factorText'>
+//             {
+//                 props.isEditing
+//                   ? <input className='factorEditingInput' defaultValue={props.value} onKeyDown={(e) => props.onKeyDown(e)} autoFocus></input>
+//                   : props.value
+//             }
+//             </span>
+//         </div>
+//   )
+// }
 
 function unique (arr) {
   return [...new Set(arr)]

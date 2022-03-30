@@ -1,40 +1,49 @@
-.factor {
-    background-color: aquamarine;
-    border: solid 0.1px;
+.editableFactor {
+    background-color: orange;
+    border: none;
+    border-radius: 10px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
     position: relative;
-    padding: 0;
-    margin: 1rem .5rem;
+    padding: .8em;
+    margin: .6rem .5rem;
     cursor: pointer;
 }
 
 .factorDelete {
-    --fontSize: 16px;
+    --fontSize: 12px;
     border-radius: 100%;
     background-color: black;
+    height: 21px;
+    width: 21px;
     border: none;
-    color: white;
-    text-align: center;
-    text-decoration: none;
     display: inline-block;
-    font-size: var(--fontSize);
     position: absolute;
-    top: calc(var(--fontSize) * -0.5);
-    right: calc(var(--fontSize) * -0.5);
+    top: -10px;
+    right: -12px;
     margin: 0;
     z-index: 1;
-    cursor: pointer;
 }
 
-.factorTextContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: .3em .8em;
-    height: 100%;
+.factorDelete span {
+    font-size: 12px;
+    position: absolute;
+    top: 0px;
+    left: 6px;
 }
 
-.factorEditInput {
-    /* background-color: transparent; */
+.editableFactor span {
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.editableFactor input {
     border: 0px;
     text-decoration: none;
+    outline: none;
+    height: 2em;
+    border-radius: 5px;
+    width: 6em;
 }

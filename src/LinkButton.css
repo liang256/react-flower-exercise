@@ -6,13 +6,29 @@
     margin: 0;
     border: solid gray 1px;
     border-radius: 5px;
+    /* background-color: orange; */
     background-color: transparent;
     text-decoration: none;
     color: black;
+    /* color: white; */
 }
 
 .linkButton:hover {
     font-weight: 400;
+    /* background-color: darkorange; */
     background-color: gray;
     color: white;
+}
+
+.linkButton.disable {
+    cursor: default;
+    border: solid lightgray 1px;
+    background-color: lightgray;
+    text-decoration: none;
+    color: gray;
+}
+
+.linkButton.disable:hover {
+    color: gray;
+    font-weight: 300;
 }

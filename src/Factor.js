@@ -40,16 +40,16 @@ function Factor(props) {
 
   return (
     <div
-        className='factor'
+        className='editableFactor'
         onClick={(e) => handleClick(e)}
     >
         <button 
           className='factorDelete' 
           onClick={(e) => handleDeleteClick(e)}
         >
-          x
+          <span>x</span>
         </button>
-        <div className='factorTextContainer'>
+        {/* <div className='factorTextContainer'> */}
         {
             props.isEditing
               ? <input 
@@ -58,9 +58,9 @@ function Factor(props) {
                 onKeyDown={(e) => handleKeyDown(e)} 
                 autoFocus
               ></input>
-              : props.value
+              : <span>{props.value}</span>
         }
-        </div>
+        {/* </div> */}
     </div>
   )
 }
