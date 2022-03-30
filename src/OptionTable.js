@@ -2,6 +2,7 @@ import React from 'react'
 import './OptionTable.css'
 import { Link } from 'react-router-dom'
 import getColDesc from './OptionTableConfig'
+import LinkButton from './LinkButton'
 
 class OptionTable extends React.Component {
   constructor (props) {
@@ -128,7 +129,9 @@ class OptionTable extends React.Component {
                         </div>
                     </div>
                     <div className='row'>
-                        <textarea className='column' rows="20" placeholder={colDesc[0].placeholder}></textarea>
+                        <div className='column'>
+                          <textarea autoFocus={true} rows="20" placeholder={colDesc[0].placeholder}></textarea>
+                        </div>
                         <div className='column'>
                             <div className='factorContainer' onClick={() => this.handleClick()}>
                               {factors.length == 0 ? colDesc[1].placeholder : factors}
@@ -143,14 +146,15 @@ class OptionTable extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className='row center'>
-                    <Link to={
+                <div className='row center buttonContainer'>
+                  <LinkButton 
+                    to={
                       '/compare?cate=' + this.props.cate
                       + '&title=' + this.props.title
-                      + '&factors=' + this.state.factors}
-                    >
-                      排序
-                    </Link>
+                      + '&factors=' + this.state.factors
+                    }
+                    text = 'Sort'
+                  />
                 </div>
             </div>
     )
@@ -160,17 +164,19 @@ class OptionTable extends React.Component {
 function Factor (props) {
   return (
         <div
-            className='factor'
+            className='editableFactor'
             onClick={(e) => { e.stopPropagation(); props.onClick() }}
         >
-            <button className='factorDelete' onClick={(e) => { e.stopPropagation(); props.onClickDelete() }}>x</button>
-            <div className='factorTextContainer'>
+            <button className='factorDeleteButton' onClick={(e) => { e.stopPropagation(); props.onClickDelete() }}>
+              <span>x</span>
+            </button>
+            <span className='factorText'>
             {
                 props.isEditing
-                  ? <input className='factorEditInput' defaultValue={props.value} onKeyDown={(e) => props.onKeyDown(e)} autoFocus></input>
+                  ? <input className='factorEditingInput' defaultValue={props.value} onKeyDown={(e) => props.onKeyDown(e)} autoFocus></input>
                   : props.value
             }
-            </div>
+            </span>
         </div>
   )
 }

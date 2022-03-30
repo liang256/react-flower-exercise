@@ -1,31 +1,63 @@
+.table {
+    margin: 0 auto;
+    width: 600px;
+    margin-top: 30px;
+}
+
 .row {
     display: flex;
-    width: 600px;
+    width: 100%;
 }
 
 .column {
     padding: 0;
-    border: solid 0.1px;
+    border: solid gray 0.1px;
     width: 50%;
 }
 
+.column textarea {
+    margin: auto;
+    margin-top: 1em;
+    padding: 1em;
+    width: 100%;
+    height: 85%;
+    border: 0;
+    border: dotted lightgray 0.1px;
+    border-radius: 5px;
+    resize: none;
+    outline: none;
+}
+
 .header {
-    font-weight: bold;
-    margin: 0.4rem;
+    font-weight: 300;
+    margin: 1rem;
 }
 
-.factor {
-    background-color: aquamarine;
-    border: solid 0.1px;
+.editableFactor {
+    background-color: orange;
+    border: none;
+    border-radius: 10px;
+    height: fit-content;
+    display: flex;
+    align-items: center;
     position: relative;
-    padding: 0;
+    padding: .8em;
     margin: 1rem .5rem;
+    cursor: pointer;
 }
 
-.factorDelete {
-    --fontSize: 16px;
+.factorText {
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.factorDeleteButton {
+    --fontSize: 12px;
     border-radius: 100%;
     background-color: black;
+    height: 21px;
+    width: 21px;
     border: none;
     color: white;
     text-align: center;
@@ -33,38 +65,58 @@
     display: inline-block;
     font-size: var(--fontSize);
     position: absolute;
-    top: calc(var(--fontSize) * -0.5);
-    right: calc(var(--fontSize) * -0.5);
+    top: calc(var(--fontSize) * -1);
+    right: calc(var(--fontSize) * -1);
     margin: 0;
     z-index: 1;
 }
 
-.factorTextContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: .3em .8em;
-    height: 100%;
+.factorDeleteButton span {
+    position: absolute;
+    top: 3px;
+    left: 7px;
 }
 
-.factorEditInput {
+.factorEditingInput {
     /* background-color: transparent; */
     border: 0px;
     text-decoration: none;
+    outline: none;
+    height: 2em;
+    border-radius: 5px;
+    /* opacity: 50%; */
 }
 
 .factorContainer {
+    position: relative;
     flex-wrap: wrap;
-    height: 80%;
-    border: solid 0.1px;
+    height: 250px;
+    margin: auto .7em;
+    /* margin-left: .6em;
+    margin-right: .6em; */
+    margin-top: 1em;
+    margin-bottom: 0 !important;
+    border: dotted 0.1px lightgray;
+    border-radius: 5px;
+    padding: 1rem;
+    font-size: 14px;
+    color: gray;
+    /* background-color: aqua; */
 }
 
 .newFactorInput {
-    padding: .2rem;
+    /* background-color: aqua; */
+    border: none;
+    background-color: whitesmoke;
+    border-radius: 5px;
+    height: 2em;
+    margin: 1em;
+    outline: none;
 }
 
 .newFactorInputContainer {
-    height: 20%;
+    /* height: 20%; */
+    /* margin-top: .5em; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,6 +130,6 @@
     justify-content: center;
 }
 
-button {
-    margin: 0.4rem;
+.buttonContainer {
+    margin-top: 1rem;
 }

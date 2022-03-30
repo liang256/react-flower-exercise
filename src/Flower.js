@@ -55,9 +55,7 @@ function Flower() {
  
     return (
       <div>
-        <div className='container headerContainer'>
-          <span>Flower Excercise</span>
-        </div>
+        
         <div className="flower">
             <Petal 
               name='目標' 

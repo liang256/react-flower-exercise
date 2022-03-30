@@ -128,6 +128,15 @@
     justify-content: center;
 }
 
+.headerContainer {
+    margin-top: 30px;
+}
+
+.headerContainer a, .headerContainer a:link {
+    color: gray;
+    text-decoration: none;
+}
+
 .headerContainer span {
     font-size: 54px;
     font-weight: 100;
