@@ -1,5 +1,8 @@
 export default function initFlowerData() {
     //
+    const flowerData = []
+    sessionStorage.setItem('flowerData', JSON.stringify(flowerData))
+    return flowerData
 }
 
 /**

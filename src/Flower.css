@@ -1,14 +1,16 @@
 .flower {
-    --containerLen: 950px;
+    --containerLen: 750px;
     position: relative;
     width: var(--containerLen);
     height: var(--containerLen);
-    background: aqua;
-    border: 2px solid blue;
+    /* background: aqua; */
+    /* border: 2px solid blue; */
+    margin: 0 auto;
+    /* margin-top: 10px; */
 }
 
 .petal {
-    --radius: 150px;
+    --radius: 130px;
     position: absolute;
     left: 0px;
     top: 0px;
@@ -16,13 +18,13 @@
     width: calc(var(--radius) * 2);
     height: calc(var(--radius) * 2);
     /* background: #ECECEC; */
-    border: 2px solid blue;
+    border: 1px solid gray;
     display: flex;
     justify-content: center;
 }
 
 .petal.center {
-    background: red;
+    /* background: red; */
     left: calc(var(--containerLen)/2 - var(--radius));
     top: calc(var(--containerLen)/2 - var(--radius));
 }
@@ -86,4 +88,64 @@
     height: fit-content;
     margin-top: 56px;
     margin-right: 4px;;
+}
+
+.petal.hover {
+    background-color: gray;
+}
+
+.petalNameContainer {
+    display: flex;
+    align-items: center;
+}
+
+.petalNameContainer .petalName {
+    font-size: 64px;
+    color: gray;
+    font-weight: 100;
+    cursor: pointer;
+    padding: 0.3em;
+    /* transition: font-size 300ms, font-weight 0ms; */
+}
+
+.petalNameContainer .petalName:hover {
+    font-size: 72px;
+    /* scale: 1.2; */
+    font-weight: bold;
+    /* color: black; */
+    color: white;
+}
+
+.petalNameContainer a:link {
+    text-decoration: none;
+}
+
+.container {
+    position: relative;
+    width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.headerContainer span {
+    font-size: 54px;
+    font-weight: 100;
+    display: block;
+}
+
+button {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 100;
+    padding: .6em;
+    margin: 0;
+    border: solid gray 1px;
+    border-radius: 5px;
+    background-color: transparent;
+}
+
+button:hover {
+    background-color: gray;
+    color: white;
 }
