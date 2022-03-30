@@ -12,8 +12,7 @@ function App () {
           }}
         >
           <Link to="/">Home</Link> |{' '}
-          <Link to="/stories">Stories</Link> |{' '}
-          <Link to="/expenses">Expenses</Link>
+          <Link to="/stories">Stories</Link>
         </nav>
         <Outlet/>
     </div>

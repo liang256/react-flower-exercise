@@ -10,8 +10,6 @@ import {
   Outlet
 } from 'react-router-dom'
 import MakeOptions from './routes/makeOptions'
-import Invoices from './routes/invoices'
-import Invoice from './routes/invoice'
 import Flower from './Flower'
 import CompareMaster from './routes/CompareMaster'
 import Rewrite from './Rewrite'
@@ -48,17 +46,6 @@ ReactDOM.render(
           <Route path='rewrite' element={<Rewrite />} />
           <Route path='salary' element={<Salary />}/>
           <Route path='plazas' element={<Plazas/>}/>
-          <Route path="invoices" element={<Invoices />}>
-            <Route
-              index
-              element={
-                <main style={{ padding: '1rem' }}>
-                  <p>Select an invoice</p>
-                </main>
-              }
-            />
-            <Route path=":invoiceId" element={<Invoice />} />
-          </Route>
           <Route
             path="*"
             element={
