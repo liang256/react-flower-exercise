@@ -1,0 +1,40 @@
+.factor {
+    background-color: aquamarine;
+    border: solid 0.1px;
+    position: relative;
+    padding: 0;
+    margin: 1rem .5rem;
+    cursor: pointer;
+}
+
+.factorDelete {
+    --fontSize: 16px;
+    border-radius: 100%;
+    background-color: black;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: var(--fontSize);
+    position: absolute;
+    top: calc(var(--fontSize) * -0.5);
+    right: calc(var(--fontSize) * -0.5);
+    margin: 0;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.factorTextContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .3em .8em;
+    height: 100%;
+}
+
+.factorEditInput {
+    /* background-color: transparent; */
+    border: 0px;
+    text-decoration: none;
+}

@@ -22,6 +22,7 @@ import Salary from './routes/Salary'
 import Plazas from './routes/Plazas'
 import Faith from './routes/Faith'
 import Knowledges from './routes/Knowledges'
+import FindKnowledges from './routes/FindKnowledges'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -34,6 +35,7 @@ ReactDOM.render(
           />
           <Route path='faith' element={<Faith/>}/>
           <Route path='knowledges' element={<Knowledges/>}/>
+          <Route path='find-knowledges' element={<FindKnowledges/>}/>
           <Route path="make-options" element={<MakeOptions />} />
           <Route path='stories' element={<Outlet/>} >
             <Route index element={<div><h2>story index</h2><Stories/></div>}/>

@@ -1,17 +1,17 @@
 import React from 'react'
 
 export function Draggable(props) {
-  const handleDragStart = (e, name) => {
-    e.dataTransfer.setData('id', name)
-  }
   return (
-    <div 
-        key={props.name} 
+    <div
         className={'draggable ' + props.className}
         draggable
-        onDragStart={(e) => handleDragStart(e, props.name)}
+        onDragStart={(e) => props.onDragStart(e, props.item)}
+        style={{
+          left: props.item.left,
+          top: props.item.top
+        }}
     >
-        {props.name}
+        {props.item.name}
     </div>
   )
 }
@@ -22,9 +22,14 @@ export function Droppable(props) {
   }
 
   const renderDraggables = (properties) => {
-    return properties.map(name => {
+    return properties.map(p => {
         return (
-            <Draggable key={name} name={name} className={props.propClassName}/>
+            <Draggable 
+              key={p.name} 
+              item={p} 
+              className={props.propClassName}
+              onDragStart={props.handleDragStart}
+            />
         )
     })
   }

@@ -62,7 +62,6 @@ class Flower extends React.Component {
     })
  
     return (
-
         <div className="flower">
             flower
             <Petal key='purpose' petalPosition="center" contents={purposeContents}/>

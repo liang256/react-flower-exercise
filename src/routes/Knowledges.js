@@ -1,21 +1,24 @@
 import React, { useState } from 'react'
 import './Knowledges.css'
-import { Droppable } from './DragAndDrop'
+import { Draggable, Droppable } from './DragAndDrop'
+import { updateRow } from '../FlowerData'
+import { Link, useSearchParams } from 'react-router-dom'
 
 function Knowledges() {
-    const [knowledges, setKnowledges] = useState([
-        {name: '動畫', category: 'unsorted'},
-        {name: '角色造型', category: 'unsorted'},
-        {name: '美食', category: 'unsorted'},
-        {name: '電腦科學', category: 'unsorted'},
-        {name: '錢', category: 'unsorted'},
-        {name: '植物', category: 'unsorted'},
-        {name: '塗鴉', category: 'unsorted'},
-        {name: '顧問', category: 'unsorted'},
-        {name: '攝影', category: 'unsorted'},
-        {name: '分鏡', category: 'unsorted'},
-        {name: '神秘學', category: 'unsorted'}
-    ])
+    const [searchParams, setSearchParams] = useSearchParams();
+    let factors = searchParams.get('factors')
+    factors = (factors === null) ? [] : factors.split(',')
+    factors = factors.filter(f => f !== '')
+        .map(f => {
+            return {
+                name: f,
+                category: 'unsorted',
+                left: 0,
+                right: 0
+            }
+        })
+    // console.log(factors)
+    const [knowledges, setKnowledges] = useState(factors)
 
     const boxes = {
         topRight: [],
@@ -26,20 +29,57 @@ function Knowledges() {
     }
 
     knowledges.map(kn => {
-        boxes[kn.category].push(kn.name)
+        boxes[kn.category].push(kn)
     })
+
+    const handleDragStart = (e, item) => {
+        e.dataTransfer.setData('id', item.name)
+        e.dataTransfer.setData('width', e.target.offsetWidth)
+        e.dataTransfer.setData('height', e.target.offsetHeight)
+        console.log('drag e', e.target.offsetWidth, e.target.offsetHeight)
+    }
 
     const handleDrop = (e, cate) => {
         const id = e.dataTransfer.getData('id')
+        const width = e.dataTransfer.getData('width')
+        const height = e.dataTransfer.getData('height')
         const newKnowledges = knowledges.map(kn => {
             if (kn.name == id) {
                 console.log(kn.name,'from',kn.category,'to',cate)
                 kn.category = cate
+                kn.left = e.nativeEvent.offsetX - width / 2
+                kn.top = e.nativeEvent.offsetY - height / 2
             }
             return kn
         })
         setKnowledges(newKnowledges)
     }
+
+    const compareByDistance = (a, b) => {
+        return (
+            (Math.pow(b.left, 2) + Math.pow(10000 - b.top, 2))
+            - (Math.pow(a.left, 2) + Math.pow(10000 - a.top, 2))
+        )
+    }
+
+    const handleSave = () => {
+        // const
+        let topFactors = boxes.topRight
+            .sort(compareByDistance)
+            .slice(0, 5)
+            .map(f => f.name)
+        
+        if (topFactors.length < 5) {
+            topFactors = topFactors.concat(
+                boxes.bottomRight
+                    .sort(compareByDistance)
+                    .slice(0, 5 - topFactors.length)
+                    .map(f => f.name)
+            )
+        }
+        updateRow('knowledge', '我最愛的知識或興趣', topFactors)
+    }
+
   return (
     <div>
         <div>
@@ -49,19 +89,24 @@ function Knowledges() {
             <br/><br/><br/><br/>專業知識
             <div>
                 <div className='row'>
-                    <Droppable 
+                    <Droppable
                         name='topLeft' 
                         properties={boxes.topLeft} 
                         onDrop={(e)=>handleDrop(e, 'topLeft')}
                         className='box'
-                        propClassName='factor'
+                        propClassName='factor absolute'
+                        onDragStart={handleDragStart}
+                        handleDragStart = {handleDragStart}
+                        // renderProps={renderProps}
                     />
                     <Droppable 
                         name='topRight' 
                         properties={boxes.topRight} 
                         onDrop={(e)=>handleDrop(e, 'topRight')}
                         className='box'
-                        propClassName='factor'
+                        propClassName='factor absolute'
+                        handleDragStart = {handleDragStart}
+                        // renderProps={renderProps}
                     />
                 </div>
                 <div className='row'>
@@ -70,14 +115,18 @@ function Knowledges() {
                         properties={boxes.bottomLeft} 
                         onDrop={(e)=>handleDrop(e, 'bottomLeft')}
                         className='box'
-                        propClassName='factor'
+                        propClassName='factor absolute'
+                        handleDragStart = {handleDragStart}
+                        // renderProps={renderProps}
                     />
                     <Droppable 
                         name='bottomRight' 
                         properties={boxes.bottomRight} 
                         onDrop={(e)=>handleDrop(e, 'bottomRight')}
                         className='box'
-                        propClassName='factor'
+                        propClassName='factor absolute'
+                        handleDragStart = {handleDragStart}
+                        // renderProps={renderProps}
                     />
                 </div>
             </div>
@@ -97,10 +146,15 @@ function Knowledges() {
                 name='unsorted' 
                 properties={boxes.unsorted} 
                 onDrop={(e)=>handleDrop(e, 'unsorted')}
+                handleDragStart = {handleDragStart}
                 className=''
                 propClassName='factor'
             />
         </div>
+        <button onClick={() => handleSave()}>
+            {/* save */}
+            <Link to='/'>Save</Link>
+        </button>
     </div>
   )
 }

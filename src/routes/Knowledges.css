@@ -2,6 +2,8 @@
     width: 400px;
     height: 200px;
     border: solid 0.1px;
+    position: relative;
+    padding: 0;
 }
 
 .row {
@@ -11,4 +13,10 @@
 .factor {
     background-color: deepskyblue;
     width: fit-content;
+    position: static;
+    margin: 0;
+}
+
+.factor.absolute {
+    position: absolute;
 }
