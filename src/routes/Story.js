@@ -1,18 +1,50 @@
 import React, { useRef, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
+import LinkButton from '../LinkButton'
 import './Story.css'
+import {
+    getStories,
+    getStory,
+    initStories
+} from '../StoryModule'
 
 export default function Story() {
+    const navigate = useNavigate()
     
     const params = useParams()
     const storyId = parseInt(params.storyId, 10)
     // console.log('story id', storyId)
 
+    const [titleEditing, setTitleEditing] = useState(false)
     const [stories, setStories] = useState(getStories())
-    const [story, isNewStory] = getStory(storyId)
+    const [story, isNewStory] = getStory(stories, storyId)
     const [selectorId, setSelectorId] = useState(storyId)
     const contentInputRef = useRef()
     const titleInputRef = useRef()
+
+    const switchToSelectedId = (id) => {
+        contentInputRef.current.focus()
+        let [targetStory, isNewStory] = getStory(stories, id)
+        contentInputRef.current.value = targetStory.content
+        titleInputRef.current.value = targetStory.title
+    }
+    console.log('sotry is new', isNewStory)
+
+    const handleTitleInputKeyDown = (e) => {
+        console.log(e.target.value)
+        if (e.key === 'Enter' && e.target.value !== '') {
+            const newStories = stories.map((s, i) => {
+                if (i === storyId) {
+                    s.title = e.target.value
+                }
+                return s
+            })
+            sessionStorage.setItem('stories', JSON.stringify(newStories))
+            setStories(newStories)
+            setTitleEditing(false)
+        }
+    }
+
     // console.log('render, stories', stories)
     const storyOptions = stories.map((story, index) => {
         return (
@@ -25,11 +57,37 @@ export default function Story() {
         )
     })
     return (
-        <div>
-            <div className='storyTitle'>
-                <input 
-                    ref={titleInputRef}
-                    defaultValue={isNewStory ? `我的第 ${storyId + 1} 個故事` : story.title}
+        <div 
+            className='storyDetailContainer'
+            onClick={(e) => {
+                e.stopPropagation()
+                if (titleEditing) {
+                    setTitleEditing(false)
+                }
+            }}
+        >
+            <div className='titleContainer'>
+                <h2 
+                    className={titleEditing ? 'storyTitle hidden' : 'storyTitle'}
+                    onClick={(e) => {
+                        console.log('title click')
+                        e.stopPropagation()
+                        if (!titleEditing) {
+                            setTitleEditing(true)
+                        }
+                        titleInputRef.current.value = story.title
+                        titleInputRef.current.focus()
+                    }}
+                >
+                    {story.title}
+                </h2>
+                <input
+                    className={titleEditing ? 'titleInput' : 'titleInput hidden'}
+                    type = 'text'
+                    ref = {titleInputRef}
+                    defaultValue={story.title}
+                    onKeyDown={(e) => handleTitleInputKeyDown(e)}
+                    onClick={(e) => {e.stopPropagation()}}
                 ></input>
             </div>
             <div className='storyContent'>
@@ -38,65 +96,80 @@ export default function Story() {
                     onChange={(e) => {
                         let newStories = stories
                         newStories[storyId]['content'] = e.target.value
+                        console.log('on change', newStories)
                         sessionStorage.setItem('stories', JSON.stringify(newStories))
                     }}
-                    defaultValue={
-                    isNewStory 
-                    ? (
+                    placeholder = {(
                         "每個故事都要包含以下要素：\n"
                         + "A 目標 (你想要達成的事)\n"
                         + "B 你遇到的某種困難、阻礙、限制 (個人考量或客觀因素)\n"
                         + "C 描述你做了哪些事，如何完成每個步驟 (解釋你如何克服困難達成目標)\n"
                         + "D 描述最終結果\n"
                         + "E 用一些量化數據表達你對這個成果的評價"
-                    )
-                    : story.content
-                }></textarea>
+                    )}
+                    defaultValue={story.content}></textarea>
             </div>
-            <div>
+            <div className='row center storySwitcher'>
                 {
                     stories.length > 0 && <div className='storySelector'>
                         <select
                             defaultValue={selectorId}
                             onChange = {(e) => {
                                 setSelectorId(e.target.value)
+                                navigate('/stories/' + e.target.value)
+                                switchToSelectedId(e.target.value)
                             }}
                         >
                             {storyOptions}
                         </select>
-                        <button onClick={() => {
-                            contentInputRef.current.focus()
-                            let [targetStory, isNewStory] = getStory(selectorId)
-                            contentInputRef.current.value = targetStory.content
-                            titleInputRef.current.value = targetStory.title
-                        }}>
-                            <Link to={'/stories/' + selectorId}>前往編輯</Link>
-                        </button>
                     </div>
                 }
-                <button className='analysisButton'>
-                    <Link to={'/stories/' + selectorId + '/analysis'}>分析</Link>
-                </button>
+            </div>
+            <div className='row center buttonContainer'>
+                <LinkButton to='/stories' text='Back'/>
+                &nbsp;
+                &nbsp;
+                <LinkButton
+                    to={'/stories/' + selectorId + '/analysis'}
+                    text='Analysis'
+                />
             </div>
         </div>
     )
 }
 
-function getStory(id) {
-    const stories = JSON.parse(sessionStorage.getItem('stories'))
-    // console.log('get story, stories', stories)
-    return (stories[id] === undefined)
-        ? [{title: `我的第 ${id + 1} 個故事`, content: null}, true]
-        : [stories[id], false]
-}
+// function getStory(stories, id) {
+//     // let stories = getStories()
+    
+//     const isNewStory = (stories[id] === undefined)
+//     const story = isNewStory
+//         ? {title: `我的第 ${id + 1} 個故事`, content: null}
+//         : stories[id]
+//     if (isNewStory) {
+//         console.log('is arr',Array.isArray(stories))
+//         stories.push(story)
+//         // console.log('hi', id, newStories)
+//         sessionStorage.setItem('stories', JSON.stringify(stories))
+//     }
+//     return [story, isNewStory]
+// }
 
-function getStories() {
-    let stories = sessionStorage.getItem('stories')
-    // console.log( stories)
-    if (stories ===  null) {
-        sessionStorage.setItem('stories', JSON.stringify([]))
-        return []
-    }
-    stories = JSON.parse(sessionStorage.getItem('stories'))
-    return Array.isArray(stories) ? stories : []
-}
+// function getStories() {
+//     let stories = sessionStorage.getItem('stories')
+//     try {
+//         stories = JSON.parse(stories)
+//         if (!Array.isArray(stories)) {
+//             initStories()
+//             return []
+//         }
+//         return stories
+//     } catch (e) {
+//         initStories()
+//         return []
+//     }
+// }
+
+// function initStories() {
+//     sessionStorage.setItem('stories', JSON.stringify([]))
+//     sessionStorage.setItem('analysis', JSON.stringify([]))
+// }

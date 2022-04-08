@@ -1,0 +1,95 @@
+.storyIndexContainer {
+    width: 424px;
+    margin: 1em auto;
+}
+
+.storyIndexContainer a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.storyIndexContainer p{
+    text-align: center;
+    color: lightgray;
+}
+
+.storyCardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.storyCardContainer .storyCard {
+    --borderColor: gray;
+    border: solid var(--borderColor) 1px;
+    border-radius: 5px;
+    width: 200px;
+    height: 150px;
+    margin: 5px;
+    position: relative;
+}
+
+.storyCard .storyTitle {
+    margin: 1em auto;
+    width: fit-content;
+    display: block;
+}
+
+.storyCard article {
+    font-size: 14px;
+    color: gray;
+    margin: .5em;
+    /* display: block; */
+}
+
+.storyCard .storyButton {
+    position: absolute;
+    background-color: transparent;
+    border-radius: 5px;
+    width: 100%;
+    height: 70%;
+}
+
+.storyCard .storyButton:hover {
+    background-color: rgb(242, 242, 242)
+}
+
+.storyCard .analysisButton {
+    --textColor: black;
+    --textHoverColor: white;
+    position: absolute;
+    /* border: solid black 1px; */
+    color: var(--textColor);
+    background-color: transparent;
+    border-top: solid var(--borderColor) 1px;
+    height: 30%;
+    width: 200px;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.storyCard .analysisButton:hover {
+    background-color: gray;
+    /* background-color: darkorange; */
+    color: var(--textHoverColor);
+
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.analysisButton .check {
+    --borderWidth: 4px;
+    --size: .8em;
+    margin-left: var(--size);
+    display: inline-block;
+    transform: rotate(45deg);
+    height: var(--size);
+    width: calc(var(--size) / 2);
+    border-bottom: var(--borderWidth) solid lightgreen;
+    border-right: var(--borderWidth) solid lightgreen;
+}
