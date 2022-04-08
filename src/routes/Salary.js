@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import {updateRow} from '../FlowerData';
 import './Salary.css'
 import LinkButton from '../LinkButton'
@@ -81,7 +80,7 @@ function Salary() {
         <div className='row center buttonContainer'>
             <LinkButton
                 to='/'
-                text='Next'
+                text='Save'
                 onClick={updateFlowerData}
             />
         </div>
