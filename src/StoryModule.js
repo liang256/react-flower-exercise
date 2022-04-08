@@ -7,6 +7,7 @@ export function getAllAnalysis() {
     }
     try {
         analysis = JSON.parse(analysis)
+        analysis = (analysis === null) ? [] : analysis
     } catch (e) {
         analysis = []
     }
