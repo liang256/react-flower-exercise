@@ -1,3 +1,66 @@
-.factorContainer {
+.FindKnowledgeContainer {
+    width: 400px;
+    height: fit-content;
+    margin: 0 auto;
+}
+
+.FindKnowledgeContainer p {
+    color: gray;
+}
+
+.FindKnowledgeContainer ol {
+    padding-inline-start: 1em;
+}
+
+.FindKnowledgeContainer .questionText {
+    color: black;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+.FindKnowledgeContainer .clearBtn {
+    font-size: 12px;
+    color: gray;
+    border: gray 1px solid;
+    height: 33px;
+    margin: 1em;
+}
+
+.FindKnowledgeContainer .clearBtn:hover {
+    color: white;
+}
+
+.FindKnowledgeContainer .row.controlContainer {
     display: flex;
+    align-items: center;
+}
+
+.FindKnowledgeContainer .knowlegeFactorContainer {
+    display: flex;
+    margin: .6em 0;
+    margin-bottom: 0;
+    position: relative;
+    flex-wrap: wrap;
+
+    border: dotted 0.1px lightgray;
+    border-radius: 5px;
+    padding: 0;
+    color: gray;
+    font-size: 14px;
+
+    align-content: flex-start;
+}
+
+.FindKnowledgeContainer .newFactorInput {
+    margin: 1em 0;
+}
+
+.FindKnowledgeContainer li {
+    margin: 1em 0;
+}
+
+.buttonContainer {
+    margin-bottom: 4em;
+    margin-top: 2em;
 }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Factor from '../Factor'
 import NewFactorInput from '../NewFactorInput'
 import './FindKnowledges.css'
+import LinkButton from '../LinkButton'
 
 function FindKnowledges() {
     const [factors, setFactors] = useState([
@@ -75,6 +76,13 @@ function FindKnowledges() {
         setEditingFactorIndex(null)
     }
 
+    const clearFactorsOfCate = (cateId) => {
+        const newFactors = factors
+            .filter(f => f.cate !== cateId)
+
+        setFactors(newFactors)
+    }
+
     const startToEditFactor = (index) => {
         setEditingFactorIndex(index)
     }
@@ -128,34 +136,47 @@ function FindKnowledges() {
         const hasFactorElements = factorsElements.length > 0
         return (
             <li key={q}>
-                <p>{q}</p>
+                <p className='questionText'>{q}</p>
                 {
                     hasFactorElements  
-                    && (<div className='factorContainer'>{factorsElements}</div>)
+                    && (<div className='knowlegeFactorContainer'>{factorsElements}</div>)
                 }
-                <NewFactorInput createFactor={(name) => createFactor(name, qIndex)}/>
+                <div className='row controlContainer'>
+                    <NewFactorInput createFactor={(name) => createFactor(name, qIndex)}/>
+                    {
+                        factors.findIndex(f => f.cate === qIndex) !== -1 
+                        && <button 
+                            className='clearBtn' 
+                            onClick={() => clearFactorsOfCate(qIndex)}
+                        >
+                            Clear
+                        </button>
+                    }
+                </div>
             </li>
         )
     }) 
     return (
-        <div
+        <div className='FindKnowledgeContainer'
             onClick={(e) => {
                 e.stopPropagation()
                 disableEditing()
             }}
         >
-            <h1>知識</h1>
-            <p>
-                在這個階段，我們需要盡可能列出我們有興趣的領域、知識、主題。越多越好，之後會再排序。<br/>
-                你可以跟著下列引導問題實作，也可以直接填寫。
-            </p>
+            <p>在這個階段，我們需要盡可能列出我們有興趣的領域、知識、主題。越多越好，之後會再排序。</p>
+            <p>你可以跟著下列引導問題實作，也可以直接填寫。</p>
             {/* <h2>#1 九個問題</h2> */}
             <ol>
                 {sectionOneQuestionRows}
             </ol>
-            <button>
-                <Link to={'/knowledges?factors='+getUniqueFactors()}>Next</Link>
-            </button>
+            <div className='row center buttonContainer'>
+                <LinkButton 
+                    to={'/knowledges?factors='+getUniqueFactors()}
+                    text='Next'
+                    enable={factors.length > 9 ? true : false}
+                />
+            </div>
+            
         </div>
     )
 }

@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import './Knowledges.css'
-import { Draggable, Droppable } from './DragAndDrop'
+import { Droppable } from './DragAndDrop'
 import { updateRow } from '../FlowerData'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
+import LinkButton from '../LinkButton'
 
 function Knowledges() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -44,8 +45,9 @@ function Knowledges() {
         const width = e.dataTransfer.getData('width')
         const height = e.dataTransfer.getData('height')
         const newKnowledges = knowledges.map(kn => {
-            if (kn.name == id) {
+            if (kn.name === id) {
                 console.log(kn.name,'from',kn.category,'to',cate)
+                console.log(e.nativeEvent.offsetX, e.nativeEvent.offsetY, width, height)
                 kn.category = cate
                 kn.left = e.nativeEvent.offsetX - width / 2
                 kn.top = e.nativeEvent.offsetY - height / 2
@@ -82,79 +84,72 @@ function Knowledges() {
 
   return (
     <div>
-        <div>
-        高
-        <div className='row'>
-            <br/><br/><br/><br/><br/>
-            <br/><br/><br/><br/>專業知識
-            <div>
-                <div className='row'>
-                    <Droppable
-                        name='topLeft' 
-                        properties={boxes.topLeft} 
-                        onDrop={(e)=>handleDrop(e, 'topLeft')}
-                        className='box'
-                        propClassName='factor absolute'
-                        onDragStart={handleDragStart}
-                        handleDragStart = {handleDragStart}
-                        // renderProps={renderProps}
-                    />
-                    <Droppable 
-                        name='topRight' 
-                        properties={boxes.topRight} 
-                        onDrop={(e)=>handleDrop(e, 'topRight')}
-                        className='box'
-                        propClassName='factor absolute'
-                        handleDragStart = {handleDragStart}
-                        // renderProps={renderProps}
-                    />
-                </div>
-                <div className='row'>
-                    <Droppable 
-                        name='bottomLeft' 
-                        properties={boxes.bottomLeft} 
-                        onDrop={(e)=>handleDrop(e, 'bottomLeft')}
-                        className='box'
-                        propClassName='factor absolute'
-                        handleDragStart = {handleDragStart}
-                        // renderProps={renderProps}
-                    />
-                    <Droppable 
-                        name='bottomRight' 
-                        properties={boxes.bottomRight} 
-                        onDrop={(e)=>handleDrop(e, 'bottomRight')}
-                        className='box'
-                        propClassName='factor absolute'
-                        handleDragStart = {handleDragStart}
-                        // renderProps={renderProps}
-                    />
-                </div>
+        <div className='knowledgePlacementTable'>
+            <div className='row'>
+                <span className='cornerText xStart yEnd'>高</span>
+                <span className='cornerText xStart yStart'>低</span>
+                <span className='cornerText xStart yCenter'>專<br/>業<br/>程<br/>度</span>
+                <span className='cornerText xEnd yStart'>高</span>
+                <span className='cornerText xCenter yStart'>有興趣程度</span>
+                <Droppable
+                    name='topLeft' 
+                    properties={boxes.topLeft} 
+                    onDrop={(e)=>handleDrop(e, 'topLeft')}
+                    className='box'
+                    propClassName='dragfactor sorted'
+                    onDragStart={handleDragStart}
+                    handleDragStart = {handleDragStart}
+                    // renderProps={renderProps}
+                />
+                <Droppable 
+                    name='topRight' 
+                    properties={boxes.topRight} 
+                    onDrop={(e)=>handleDrop(e, 'topRight')}
+                    className='box'
+                    propClassName='dragfactor sorted'
+                    handleDragStart = {handleDragStart}
+                    // renderProps={renderProps}
+                />
+            </div>
+            <div className='row'>
+                <Droppable 
+                    name='bottomLeft' 
+                    properties={boxes.bottomLeft} 
+                    onDrop={(e)=>handleDrop(e, 'bottomLeft')}
+                    className='box'
+                    propClassName='dragfactor sorted'
+                    handleDragStart = {handleDragStart}
+                    // renderProps={renderProps}
+                />
+                <Droppable 
+                    name='bottomRight' 
+                    properties={boxes.bottomRight} 
+                    onDrop={(e)=>handleDrop(e, 'bottomRight')}
+                    className='box'
+                    propClassName='dragfactor sorted'
+                    handleDragStart = {handleDragStart}
+                    // renderProps={renderProps}
+                />
             </div>
         </div>
-        低
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-        &emsp;&emsp;&emsp;&emsp;&emsp;
-        熱情
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-        &emsp;&emsp;&emsp;&emsp;&emsp;
-        高
-        </div>
-        <div>
-            <Droppable 
-                name='unsorted' 
-                properties={boxes.unsorted} 
-                onDrop={(e)=>handleDrop(e, 'unsorted')}
-                handleDragStart = {handleDragStart}
-                className=''
-                propClassName='factor'
+
+        <Droppable 
+            name='unsorted' 
+            properties={boxes.unsorted} 
+            onDrop={(e)=>handleDrop(e, 'unsorted')}
+            handleDragStart = {handleDragStart}
+            className='unsortedFactorContainer'
+            propClassName='dragfactor'
+        />
+        <div className='row center buttonContainer'>
+            <LinkButton
+                to = '/'
+                text = 'Save'
+                enable = {boxes.unsorted.length === 0 ? true : false}
+                onClick = {handleSave}
             />
         </div>
-        <button onClick={() => handleSave()}>
-            {/* save */}
-            <Link to='/'>Save</Link>
-        </button>
+        
     </div>
   )
 }

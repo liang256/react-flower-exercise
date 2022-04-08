@@ -1,22 +1,84 @@
-.box {
-    width: 400px;
-    height: 200px;
+.knowledgePlacementTable {
+    --tableWidth: 800px;
+    --tableHeight: 500px;
+
+    width: var(--tableWidth);
+    height: auto;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+}
+
+.knowledgePlacementTable .box {
+    
+    width: 50%;
+    height: calc(var(--tableHeight) / 2);
     border: solid 0.1px;
     position: relative;
     padding: 0;
+}
+
+.unsortedFactorContainer {
+    --padding: 0.5em;
+    width: calc(800px - var(--padding)*2);
+    min-height: 27.56px;
+    margin: 1em auto;
+    margin-top: 2em;
+    padding: var(--padding);
+    border: solid 1px lightgray;
+    border-radius: 5px;
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: initial;
 }
 
 .row {
     display: flex;
 }
 
-.factor {
-    background-color: deepskyblue;
+.dragfactor {
+    z-index: 1;
+    background-color: lightgray;
+    /* border: dashed 1px lightgray; */
+    border-radius: 5px;
     width: fit-content;
     position: static;
-    margin: 0;
+    margin: .1em;
+    padding: .2em;
+    /* color: gray; */
 }
 
-.factor.absolute {
+.dragfactor.sorted {
+    border: none;
     position: absolute;
+    background-color: orange;
+    color: white;
+}
+
+.row .cornerText {
+    color:gray;
+    font-weight: 100;
+    position: absolute;
+    left: -1.5em;
+}
+
+.row .cornerText.xStart {
+    left: -1.5em;
+}
+
+.row .cornerText.yCenter {
+    top: calc(calc(var(--tableHeight) / 2) - 2.5em);
+}
+
+.row .cornerText.xEnd {
+    left: calc(var(--tableWidth) - 1em);
+}
+
+.row .cornerText.yStart {
+    top: calc(var(--tableHeight) + 0.5em);
+}
+
+.row .cornerText.xCenter {
+    left: calc(var(--tableWidth) / 2 - 2.5em);
 }
