@@ -1,10 +1,7 @@
 import React from 'react'
-import { 
-  Link,
-  useSearchParams,
-  Redirect
-} from 'react-router-dom'
 import './Compare.css'
+import { updateRow } from './FlowerData'
+import LinkButton from './LinkButton'
 
 class Compare extends React.Component {
   constructor (props) {
@@ -26,7 +23,7 @@ class Compare extends React.Component {
     history.push(result)
 
     // check if game end
-    if (queue.length == 0) {
+    if (queue.length === 0) {
       // check if same score
       console.log('end, checking if need next round...')
       const score = countScore(history, this.props.factors)
@@ -65,26 +62,62 @@ class Compare extends React.Component {
     const queue = this.state.queue
 
     // If the compare ends
-    if (queue.length == 0) {
+    if (queue.length === 0) {
       const history = this.state.history
       const factors = this.props.factors
       const score = countScore(history, factors)
-      console.log('final his', history)
-      console.log('final score', score)
+      // console.log('final his', history)
+      // console.log('final score', score)
       const sortedFactors = score.sort((a, b) => {
+        // sort is asc
         return a.score - b.score
-      }).map(factor => factors[factor.id])
-      console.log(factors, sortedFactors)
-      return (<Link to={
-        '/rewrite?cate=' + this.props.cate
-        + '&title=' + this.props.title
-        + '&factors=' + sortedFactors
-      }>
-        Next Step
-      </Link>)
+      })
+      // console.log(factors, sortedFactors)
+      const showScoreName = []
+      const showScore = []
+      sortedFactors.forEach((row, i) => {
+        showScoreName.push(<span className='scoreName' key={row.id}>{factors[row.id]}</span>)
+        showScore.push(<span className='scoreText' key={row.id}>{row.score}</span>)
+      })
+      // render this if the compare ends
+      return (
+        <div>
+          <div className='comparePairContainer'>
+            <p className='descText'>Scores</p>
+            <div className='scoreTable'>
+              <div className='scoreTableNameCol'>{showScoreName}</div>
+              <div className='scoreTableScoreCol'>{showScore}</div>
+            </div>
+          </div>
+          <div className='comparePairContainer btnContainer'>
+            {this.props.selectPositive
+            ? <LinkButton
+              to='/'
+              text='Save'
+              onClick={updateRow(
+                this.props.cate, 
+                this.props.title, 
+                sortedFactors.reverse().map(factor => factors[factor.id])
+              )}
+            />
+            : <LinkButton
+              to={
+                '/rewrite?cate=' + this.props.cate
+                + '&title=' + this.props.title
+                + '&factors=' + sortedFactors.reverse().map(factor => factors[factor.id])
+              }
+              text = 'Next'
+            />}
+          </div>
+        </div>
+      )
     }
 
-    const comparePairs = queue.map(pair => {
+    const comparePairs = (queue) => {
+      if (!queue.length > 0) {
+        return null
+      }
+      const pair = queue[0]
       const ids = pair.split('-')
       const l_i = ids[0]
       const r_i = ids[1]
@@ -94,12 +127,20 @@ class Compare extends React.Component {
             <div key={pair + '_' + r_i} className='option optionRight' onClick={() => this.handleClickOption(pair, r_i, point)}>{factors[r_i]}</div>
         </div>
       )
-    })
+    }
 
     return (
       <div>
-          <span>{status}</span>
-          {comparePairs}
+          <div className='comparePairContainer header'>
+            <span className='headerText'>{status}</span>
+            <span className='headerText'>{'queue: ' + (queue.length - 1)}</span>
+          </div>
+          <div className='comparePairContainer body'>
+            {comparePairs(queue)}
+          </div>
+          <div className='comparePairContainer'>
+            <p className='descText'>比較左右選項，選擇讓你比較「{this.props.selectPositive ? '喜歡' : '討厭'}」的。</p>
+          </div>
       </div>
     )
   }
