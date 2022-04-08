@@ -36,7 +36,7 @@ ReactDOM.render(
           <Route path='find-knowledges' element={<FindKnowledges/>}/>
           <Route path="make-options" element={<MakeOptions />} />
           <Route path='stories' element={<Outlet/>} >
-            <Route index element={<div><h2>story index</h2><Stories/></div>}/>
+            <Route index element={<Stories/>}/>
             <Route path=":storyId" element={<Outlet/>}>
               <Route index element={<Story/>} />
               <Route path='analysis' element={<Analysis />}/>
