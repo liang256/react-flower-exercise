@@ -11,7 +11,11 @@ function Plazas() {
     const title = '我的人生目標與使命'
     const purposeInputRef = useRef()
     const purposeRow = getRow(cate, title)
-    const purpose = (purposeRow !== undefined) ? purposeRow.text : ''
+    let purpose = (purposeRow !== undefined) ? purposeRow.text : ''
+    const purposeTextSplited = purpose.split('廣場。')
+    if (purposeTextSplited.length === 2) {
+        purpose = purposeTextSplited[1]
+    }
     const [selectPlaza, setSelectPlaza] = useState(0)
     const plazas = [
         {
