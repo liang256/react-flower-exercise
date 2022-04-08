@@ -3,6 +3,7 @@ import './Flower.css'
 import { Link } from 'react-router-dom'
 import {getContentUrl} from './PetalUrlConfig'
 import initFlowerData from './FlowerData'
+import LinkButton from './LinkButton'
 
 function Flower() {
 
@@ -46,6 +47,7 @@ function Flower() {
         case 'place':
           placeContents.push(content)
           break
+        default:
       }
     })
 
@@ -70,12 +72,12 @@ function Flower() {
             <Petal name='薪資' key='salary' petalPosition="degree240" contents={salaryContents}/>
             <Petal name='地點' key='place' petalPosition="degree300" contents={placeContents}/>
         </div>
-        <div className='container'>
-          <button
+        <div className='row center buttonContainer'>
+          <LinkButton
+            to='#'
+            text='Reset'
             onClick={handleInitClick}
-          >
-            Reset
-          </button>
+          />
         </div>
       </div>
     )
@@ -85,9 +87,9 @@ function Flower() {
 function Petal(props) {
 
   const petalPosition = props.petalPosition ?? ''
-  const petalContents = props.contents.map(content => {
+  const petalContents = props.contents.map((content, index) => {
     return(
-      <Content key={content.title} data={content}/>
+      <Content key={content.title} data={content} index={index}/>
     )
   })
   
@@ -100,7 +102,7 @@ function Petal(props) {
       url = '/make-options?cate=env&title=我最愛的工作環境'
       break
     case '能力':
-      url = '/make-options?cate=colleague&title=我偏好一起工作的人'
+      url = '/stories'
       break
     case '目標':
       url = '/plazas'
@@ -118,22 +120,24 @@ function Petal(props) {
       url = '#'
   }
 
-  const [petalClassName, setPetalClassName] = useState('petal ' + petalPosition)
+  let defaultPetalClass = 'petal ' + petalPosition
+  defaultPetalClass += (petalContents.length > 0) ? ' filled' : ''
+  const [petalClassName, setPetalClassName] = useState(defaultPetalClass)
 
   return (
     <div className={petalClassName}>
         {
           petalContents.length > 0 
-          ? petalContents 
+          ? <div className='contentContainer'>{petalContents}</div>
           : (<div className='petalNameContainer'>
               <Link to={url}>
                 <span 
                   className='petalName'
                   onMouseEnter={() => {
-                    setPetalClassName('petal ' + petalPosition + ' hover')
+                    setPetalClassName(defaultPetalClass + ' hover')
                   }}
                   onMouseLeave={() => {
-                    setPetalClassName('petal ' + petalPosition)
+                    setPetalClassName(defaultPetalClass)
                   }}
                 >
                   {props.name}
@@ -146,38 +150,44 @@ function Petal(props) {
 
 }
 
-class Content extends React.Component {
-  render () {
+function Content(props) {
+    
+    const isTextMode = (props.data.sortedFactors.length === 0)
+    const smallText = (
+      props.data.category === 'salary'
+      || (isTextMode && props.data.text.length > 50)
+      || (!isTextMode && props.data.sortedFactors.length >= 10)
+    ) ? true : false
     return (
-      <div className='petalContent'>
-        <Link to={getContentUrl(this.props.data.category,this.props.data.title)}>
-        <strong>{this.props.data.title + ':'}</strong>
+      <div className={props.index === 0 ? 'petalContent first' : 'petalContent'}>
+        <Link to={getContentUrl(props.data.category, props.data.title)}>
+          <span className='contentTitle'>{props.data.title}</span>
         {
-          this.props.data.sortedFactors.length == 0
-            ? <ContentText text={this.props.data.text}/>
-            : <FactorsList factors={this.props.data.sortedFactors}/>
+            isTextMode
+              ? <p className={smallText ?'contentText smallText' : 'contentText'}>{props.data.text}</p>
+              : <FactorsList factors={props.data.sortedFactors} cate={props.data.category} smallText={smallText}/>
         }
         </Link>
       </div>
     )
-  }
 }
 
-class ContentText extends React.Component {
-  render () {
+function FactorsList(props) {
+    const smallText = (props.smallText === undefined) ? false : props.smallText
+    const factors = props.factors.map(factor => {
+      return(
+        <li 
+          key={factor}
+          className={smallText ? 'smallText' : ''}
+        >
+          {factor}
+        </li>
+      )
+    })
     return (
-      <p>{this.props.text}</p>
+      <ol className='factorList'>{factors}</ol>
     )
-  }
-}
 
-class FactorsList extends React.Component {
-  render () {
-    const factors = this.props.factors.map(factor => <li key={factor}>{factor}</li>)
-    return (
-      <ol>{factors}</ol>
-    )
-  }
 }
 
 export default Flower
