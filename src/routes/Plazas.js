@@ -2,9 +2,9 @@ import React, {
     useState, 
     useRef 
 } from 'react'
-import { Link } from 'react-router-dom'
 import './Plazas.css'
 import { updateRow, getRow } from '../FlowerData'
+import LinkButton from '../LinkButton'
 
 function Plazas() {
     const cate = 'purpose'
@@ -83,24 +83,31 @@ function Plazas() {
                 className={isSelected ? 'plazaCard selected' : 'plazaCard'}
                 onClick={() => setSelectPlaza(index)}
             >
-                <input type='checkbox' checked={isSelected ? true : false} readOnly></input>
-                {plaza.name}
-                {isSelected && <p>{plaza.desc}</p>}
+                <label className='radioCheckboxContainer'>
+                    {plaza.name}
+                    <input type='radio' checked={isSelected} readOnly={true}></input>
+                    <span className='checkmark'></span>
+                </label>
+                {isSelected && <article>{plaza.desc}</article>}
             </div>
         )
     })
   return (
-    <div>
-        <h3>目標與使命</h3>
-        <label>想像自己喜歡身處哪個廣場</label>
+    <div className='plazaContainer'>
+        <p>想像自己喜歡身處哪個廣場</p>
         <div className='plazaCardContainer'>
             {plazaOptions}
         </div>
-        <label>詳細描述你對人生目標或使命</label>
-        <textarea type='text' defaultValue={purpose} ref={purposeInputRef}></textarea>
-        <button onClick={() => updateRow(cate, title, plazas[selectPlaza].name + ':' + purposeInputRef.current.value)}>
-            <Link to='/'>Save</Link>
-        </button>
+        <p>詳細描述你對人生目標或使命</p>
+        <textarea className='purposeTextarea' type='text' defaultValue={purpose} ref={purposeInputRef}></textarea>
+        <div className='row center plazasButtonContainer'>
+            <LinkButton
+                to='/'
+                text='Save'
+                enable={true}
+                onClick={() => updateRow(cate, title, plazas[selectPlaza].name + '。' + purposeInputRef.current.value)}
+            />
+        </div>
     </div>
   )
 }
