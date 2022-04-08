@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import './Flower.css'
 import { Link } from 'react-router-dom'
 import {getContentUrl} from './PetalUrlConfig'
@@ -15,7 +15,7 @@ function Flower() {
   }
   const [data, setData] = useState(flowerData)
 
-  // render () {
+
     const purposeContents = []
     const knowledgeContents = []
     const envContents = []
@@ -54,7 +54,6 @@ function Flower() {
         }
       })
     }
-  
     const handleInitClick = () => {
       setData(initFlowerData)
     }
@@ -126,10 +125,10 @@ function Petal(props) {
 
   let defaultPetalClass = 'petal ' + petalPosition
   defaultPetalClass += (petalContents.length > 0) ? ' filled' : ''
-  const [petalClassName, setPetalClassName] = useState(defaultPetalClass)
+  const petalRef = useRef()
 
   return (
-    <div className={petalClassName}>
+    <div className={defaultPetalClass} ref={petalRef}>
         {
           petalContents.length > 0 
           ? <div className='contentContainer'>{petalContents}</div>
@@ -138,10 +137,10 @@ function Petal(props) {
                 <span 
                   className='petalName'
                   onMouseEnter={() => {
-                    setPetalClassName(defaultPetalClass + ' hover')
+                    petalRef.current.classList.add("hover")
                   }}
                   onMouseLeave={() => {
-                    setPetalClassName(defaultPetalClass)
+                    petalRef.current.classList.remove("hover")
                   }}
                 >
                   {props.name}
