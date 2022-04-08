@@ -6,16 +6,12 @@
     margin: 0;
     border: solid gray 1px;
     border-radius: 5px;
-    /* background-color: orange; */
     background-color: transparent;
     text-decoration: none;
     color: black;
-    /* color: white; */
 }
 
 .linkButton:hover {
-    font-weight: 400;
-    /* background-color: darkorange; */
     background-color: gray;
     color: white;
 }

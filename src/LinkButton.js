@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import './LinkButton.css'
 
 function LinkButton(props) {
-
-  if (!props.enable) {
+  const enable = props.enable === undefined ? true : props.enable
+  if (!enable) {
     return (
       <div className='linkButton disable'>
         <span>{props.text}</span>
@@ -12,7 +12,11 @@ function LinkButton(props) {
     )
   }
   return (
-    <Link to={props.to} className='linkButton'>
+    <Link 
+      to={props.to} 
+      className='linkButton'
+      onClick={props.onClick}
+    >
           <span>{props.text}</span>
     </Link>
   )
