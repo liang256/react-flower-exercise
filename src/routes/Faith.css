@@ -1,4 +1,23 @@
-.factor {
+.faithContainer {
+    width: 400px;
+    margin: 1em auto;
+}
+
+.faithContainer p {
+    color: gray;
+}
+
+.faithContainer .optionContainer {
+    border: dotted lightgray 1px;
+    display: block;
+    position: relative;
+    margin-bottom: 1em;
+    height: fit-content;
+    padding: 1em;
+    border-radius: 5px;
+}
+
+.faithContainer .optionContainer .factor {
     display: flex;
     margin: .2rem;
     background-color: transparent;
@@ -6,10 +25,6 @@
     border: none;
 }
 
-.factorContainer {
-    margin-bottom: 1rem;
-}
-
-.row {
-    display: flex;
+.showCheckedButtonContainer {
+    min-height: 26px;
 }

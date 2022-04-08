@@ -1,11 +1,12 @@
 import React, { 
     useState, 
-    useRef 
+    useRef
 } from 'react'
-import { Link } from 'react-router-dom'
 import {updateRow, getRow} from '../FlowerData'
 import './Faith.css'
 import {getQuestions} from '../FaithConfig'
+import LinkButton from '../LinkButton'
+import CheckboxLabel from '../CheckboxLabel'
 
 function Faith() {
     const cate = 'purpose'
@@ -13,23 +14,21 @@ function Faith() {
     const factors = getQuestions()
 
     const [notes, setNotes] = useState(Array(factors.length).fill(''))
-    const [editingFactorIndex, setEditingFacotrIndex] = useState(null)
     const [checkedFactorIds, setCheckedFactorsIds] = useState(Array(factors.length).fill(false))
     const [onlyShowChecked, setOnlyShowChecked] = useState(false)
-    const checkboxRefs = useRef([])
-    const setInputRef = (i, isChecked) => {
-        // console.log(i, checkboxRefs.current[i])
-        checkboxRefs.current[i].checked = isChecked
-    }
+
+    const checkedAmount = checkedFactorIds.filter(val => val === true).length
+
     let faith = getRow(cate, title)
     faith = (faith !== undefined) ? faith.text : ''
     const textareaRef = useRef()
+
     const handleSaveClick = () => {
         updateRow(cate, title, textareaRef.current.value)
     }
 
     const factorElements = factors.map((factor, index) => {
-        let showInput = (editingFactorIndex == index || checkedFactorIds[index])
+        let showInput = checkedFactorIds[index]
         let isShow = onlyShowChecked ? checkedFactorIds[index] : true
 
         if (!isShow) {
@@ -37,70 +36,74 @@ function Faith() {
         }
 
         return (
-            <div 
-                key={factor.name} 
-                className='factor' 
-                onClick={(e) => handleFactorDivClick(e, index)}
-            >
-                <input type='checkbox' ref={el => checkboxRefs.current[index] = el} defaultChecked={checkedFactorIds[index]} onChange={(e) => {
-                    e.stopPropagation()
-                    checkedFactorIds[index] = e.target.checked
-                    setCheckedFactorsIds(checkedFactorIds)
-                    if (!e.target.checked) {
-                        setEditingFacotrIndex(null)
+            <CheckboxLabel
+                key={index + 1}
+                index={index + 1}
+                text={factor.question}
+                isChecked={checkedFactorIds[index]}
+                setCheckboxValue={(newValue) => {
+                    const newCheckedFactorIds = checkedFactorIds.map((isCheck, i) => {
+                        return (i === index) ? newValue : isCheck
+                    })
+                    setCheckedFactorsIds(newCheckedFactorIds)
+                    const checkedCount = newCheckedFactorIds.filter(v => v === true)
+                    if (checkedCount.length === 0) {
+                        setOnlyShowChecked(false)
+                        
                     }
-                }}></input>
-                <label><span>{factor.name + ': '}</span>{factor.question}</label>
-                {showInput && <input 
-                    defaultValue={notes[index]}
-                    placeholder='可寫下觀點作為筆記'
-                    onChange={(e) => {
-                        e.stopPropagation()
-                        notes[index] = e.target.value
-                        setNotes(notes)
-                        // if note has texts, auto check the checkbox
-                        if (notes[index].length > 0) {
-                            checkedFactorIds[index] = true
-                            setCheckedFactorsIds(checkedFactorIds)
-                            setInputRef(index, true)
-                        } else {
-                            checkedFactorIds[index] = false
-                            setCheckedFactorsIds(checkedFactorIds)
-                            setInputRef(index, false)
-                        }
-                    }
-                }></input>}
-            </div>
+                }}
+                enableExtraTextInput={showInput}
+                extraInputText={notes[index]}
+                setExtraTextValue={(newValue) => {
+                    const newNotes = notes.map((n, i) => {
+                        return (i===index) ? newValue : n
+                    })
+                    setNotes(newNotes)
+                }}
+            />
         )
-    })
-
-    function handleFactorDivClick(e, index) {
-        e.stopPropagation()
-        setEditingFacotrIndex(index)
-        e.target.focus()
-    }
+    })    
 
     return (
-        <div onClick={(e) => {
-            // e.stopPropagation()
-            console.log('master click')
-            setEditingFacotrIndex(null)
-        }}>
-            <h2>我的人生哲學</h2>
-            <p>寫下你的人生哲學，不用太長。文中要提到在下列各元素中，你覺得哪些最重要。<br/>挑選幾個，並用兩三句話解釋。</p>
-            <div className='factorContainer'>
+        <div 
+            className='faithContainer'
+        >
+            <p>請從下列各元素中，勾選你覺得重要的，並寫上觀點作為下一步的參考。</p>
+            <div className='optionContainer'>
                 {factorElements}
             </div>
-            <div className='row'>
-                <input type='checkbox' onClick={(e) => {setOnlyShowChecked(e.target.checked)}}></input><label>只顯示有勾選元素</label>
+            <div className='showCheckedButtonContainer'>
+                {checkedAmount > 0 && <label
+                    className={onlyShowChecked ? 'checkboxLabelContainer checked' : 'checkboxLabelContainer'} 
+                >
+                    只顯示有勾選元素
+                    <input
+                        type='checkbox'
+                        className='checkbox'
+                        defaultChecked={onlyShowChecked}
+                        onChange={(e) => {
+                            setOnlyShowChecked(e.target.checked)
+                        }}
+                        disabled={checkedAmount === 0 ? true : false}
+                    ></input>
+                    <span className='checkmark'></span>
+                </label>}
             </div>
             
-            <textarea ref={textareaRef} placeholder='將觀點彙整於此' defaultValue={faith}></textarea>
-            <button
-                onClick={() => handleSaveClick()}
-            >
-                <Link to='/'>Save</Link>
-            </button>
+            <p>總結上面觀點，寫下你的人生哲學。</p>
+            <textarea 
+                className='purposeTextarea'
+                ref={textareaRef} 
+                placeholder='將觀點彙整於此' 
+                defaultValue={faith}
+            ></textarea>
+            <div className='row center buttonContainer'>
+                <LinkButton
+                    to='/'
+                    text='Save'
+                    onClick={handleSaveClick}
+                />
+            </div>
         </div>
     )
 }

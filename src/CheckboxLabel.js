@@ -1,8 +1,20 @@
 import React, { useState } from 'react'
 import './CheckboxLabel.css'
 
+/**
+   * props: {
+   *    isChecked
+   *    text
+   *    index
+   *    setCheckboxValue
+   *    enableExtraTextInput
+   *    extraInputText
+   *    setExtraTextValue
+   * }
+   */
 function CheckboxLabel(props) {
     const [isChecked, setIsChecked] = useState(props.isChecked)
+    
     const text = (props.index === undefined)
         ? props.text
         : props.index + '. ' + props.text
@@ -25,9 +37,9 @@ function CheckboxLabel(props) {
         {
             (props.enableExtraTextInput && isChecked) 
             && <input 
-                className='marginLeft'
+                className='extraTextInput'
                 type='text'
-                defaultValue={props.enableExtraText}
+                defaultValue={props.extraInputText}
                 onChange={(e) => props.setExtraTextValue(e.target.value)}
             ></input>
         }

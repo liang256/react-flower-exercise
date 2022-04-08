@@ -1,5 +1,6 @@
 /* Customize the label (the container) */
 .checkboxLabelContainer {
+    line-height: 1.6em;
     color: gray;
     display: block;
     position: relative;
@@ -69,4 +70,17 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+.checkboxLabelContainer .extraTextInput{
+    margin-top: 6px;
+    display: block;
+    outline: none;
+    border: solid lightgray 1px;
+    border-radius: 3px;
+    padding: .5em;
+}
+
+.checkboxLabelContainer .extraTextInput:focus{
+    border-color: black;
 }

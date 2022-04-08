@@ -54,6 +54,18 @@ function Flower() {
         }
       })
     }
+
+    // 完成廣場練習後顯示空白的人生哲學單元
+    // 點擊可進入完成該單元
+    if (purposeContents.length === 1) {
+      purposeContents.push({
+        category: 'purpose',
+        title: '我的人生哲學',
+        text: '',
+        sortedFactors: []
+      })
+    }
+
     const handleInitClick = () => {
       setData(initFlowerData)
     }
