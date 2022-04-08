@@ -1,0 +1,72 @@
+/* Customize the label (the container) */
+.checkboxLabelContainer {
+    color: gray;
+    display: block;
+    position: relative;
+    padding-left: 1.5em;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.checkboxLabelContainer.checked {
+    color: black;
+}
+  
+/* Hide the browser's default checkbox */
+.checkboxLabelContainer .checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkboxLabelContainer .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1.1em;
+    width: 1.1em;
+    background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.checkboxLabelContainer:hover .checkbox ~ .checkmark {
+    background-color: #ccc;     
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkboxLabelContainer .checkbox:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkboxLabelContainer .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.checkboxLabelContainer .checkbox:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkboxLabelContainer .checkmark:after {
+    left: 5px;
+    top: 2.8px;
+    width: 3px;
+    height: 7px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
