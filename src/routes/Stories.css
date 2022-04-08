@@ -93,3 +93,24 @@
     border-bottom: var(--borderWidth) solid lightgreen;
     border-right: var(--borderWidth) solid lightgreen;
 }
+
+/* header text */
+.topFactorsContainer span{
+    font-size: 24px;
+    font-weight: 300;
+    color: gray;
+    text-align: center;
+    display: block;
+}
+
+.topFactorsContainer hr{
+    border-color: lightgray;
+    opacity: 20%;
+}
+
+.topFactorsContainer li{
+    font-size: 14px;
+    font-weight: 300;
+    color: gray;
+    margin-left: 23%;
+}
