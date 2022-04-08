@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import {Link, useSearchParams} from 'react-router-dom'
-import updateRow from './FlowerData';
+import { useSearchParams } from 'react-router-dom'
+import {updateRow} from './FlowerData';
 import './OptionTable.css'
+import './Rewrite.css'
+import LinkButton from './LinkButton'
 
 function Rewrite() {
     let [searchParams, setSearchParams] = useSearchParams();
@@ -16,35 +18,37 @@ function Rewrite() {
     factors = factors.filter(factor => factor !== '')
     const [oppsiteFactors, setOppsiteFactors] = useState(factors)
 
-    const factorList = factors.map(factor => {
+    const factorRows = factors.map((f, index) => {
         return (
-            <li key={factor}>{factor}</li>
-        )
-    })
-    const oppsiteFactorList = factors.map((factor, index) => {
-        return (
-            <li key={'oppsite-' + factor}>
-                <input defaultValue={factor} onChange={(e) => {
-                    let newOppsiteFactors = oppsiteFactors.slice()
-                    newOppsiteFactors[index] = e.target.value
-                    setOppsiteFactors(newOppsiteFactors)
-                }}></input>
-            </li>
+            <div className='rewriteRow' key={index}>
+                <span>{(index + 1) + '. ' + f}</span>
+                <input 
+                    type='text'
+                    defaultValue={f}
+                    onChange={(e) => {
+                        let newOppsiteFactors = oppsiteFactors.slice()
+                        newOppsiteFactors[index] = e.target.value
+                        setOppsiteFactors(newOppsiteFactors)
+                    }}
+                ></input>
+            </div>
         )
     })
 
+    const save = () => {
+        updateRow(cate, title, oppsiteFactors)
+    }
+
     return (
-        <div>
-            <div className='row'>
-                <div className='column'>
-                    <ol>{factorList}</ol>
-                </div>
-                <div className='column'>
-                    <ol>{oppsiteFactorList}</ol>
-                </div>
-            </div>
-            <div className='row center'>
-                <Link to='/' onClick={() => updateRow(cate, title, oppsiteFactors)}>submit</Link>
+        <div className='rewriteContainer'>
+            <p>將負面因素轉寫成正面因素</p>
+            {factorRows}
+            <div className='row center buttonContainer'>
+                <LinkButton
+                 to='/'
+                 onClick={save}
+                 text='Save'
+                />
             </div>
         </div>
     )

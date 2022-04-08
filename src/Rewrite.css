@@ -1,0 +1,32 @@
+.rewriteContainer {
+    width: 400px;
+    margin: 1em auto;
+}
+
+.rewriteContainer .rewriteRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1em auto;
+}
+
+.rewriteContainer p {
+    font-weight: 200;
+    color: gray;
+    text-align: center;
+}
+
+.rewriteContainer .rewriteRow span {
+    min-width: 120px;
+}
+
+.rewriteContainer input[type=text] {
+    outline: none;
+    border: solid lightgray 1px;
+    border-radius: 3px;
+    padding: .6em;
+}
+
+.rewriteContainer input[type=text]:focus {
+    border: solid black 1px;
+}
