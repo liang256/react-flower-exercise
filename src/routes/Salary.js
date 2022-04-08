@@ -1,64 +1,90 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {updateRow} from '../FlowerData';
+import './Salary.css'
+import LinkButton from '../LinkButton'
 
 function Salary() {
     const salary = getSalary()
     const jobLevels = getJobLevels()
-    
-    console.log(salary, jobLevels)
+
     const jobLevelsCheckBoxs = jobLevels.map((option, index)=> {
         return(
-            <div key={option} >
+            <label 
+                key={option} 
+                className={salary.level[index] ? 'labelContainer checked' : 'labelContainer'}
+            >
+                {option}
                 <input 
                     defaultChecked={salary.level[index]}
                     type='checkbox'
+                    className='checkbox'
                     onChange={(e) => handCheckBoxOnChange(salary, 'level', index, e.target.checked)}
                 ></input>
-                <label>{option}</label>
-            </div>
+                <span className='checkmark'></span>
+            </label>
         )
     })
     const otherIncomes = getOtherIncomeOptions()
+    const [otherIncomeAnswers, setOtherIncomeAnswers] = useState(salary.otherIncome)
     const otherIncomeCheckBoxs = otherIncomes.map((option, index)=> {
         return (
-            <div key={option}>
+            <label 
+                key={option} 
+                className={otherIncomeAnswers[index] ? 'labelContainer checked' : 'labelContainer'} 
+                onClick={() => {
+                    const newAnswers = salary.otherIncome.map((an, i) => {
+                        return (i === index) ? !an : an
+                    })
+                    setOtherIncomeAnswers(newAnswers)
+                }
+            }>
+                {option}
                 <input
                     type='checkbox'
+                    className='checkbox'
                     defaultChecked={salary.otherIncome[index]}
                     onChange={(e) => handCheckBoxOnChange(salary, 'otherIncome', index, e.target.checked)}
                 ></input>
-                <label>{option}</label>
                 {
-                    option === '其他' && <input 
+                    (option === '其他' && salary.otherIncome[index]) 
+                    && <input 
+                        className='marginLeft'
                         type='text'
                         defaultValue={salary.otherIncomeText}
                         onChange={(e) => handTextInputOnChange(salary, 'otherIncomeText', e.target.value)}
                     ></input>
                 }
-            </div>
+                <span className='checkmark'></span>
+            </label>
         )
     })
   return (
-    <div>
-        <h3>理想的工作等級？</h3>
+    <div className='salaryContainer'>
+        <h3>1. 理想的工作等級？</h3>
         <div>
             {jobLevelsCheckBoxs}
         </div>
-        <h3>目標薪水</h3>
+        <h3>2. 目標薪水</h3>
         <div>
             <input 
+                type='text'
+                className='salaryInput'
                 defaultValue={salary.income}
                 onChange={(e) => handTextInputOnChange(salary, 'income', e.target.value)}
             ></input>
         </div>
-        <h3>金錢以外的報酬</h3>
+        <h3>3. 金錢以外的報酬</h3>
         <div>
             {otherIncomeCheckBoxs}
         </div>
-        <button onClick={() => updateFlowerData()}>
-            <Link to='/'>Next Step</Link>
-        </button>
+        <div className='row center buttonContainer'>
+            <LinkButton
+                to='/'
+                text='Next'
+                onClick={updateFlowerData}
+            />
+        </div>
     </div>
   )
 }
@@ -142,10 +168,10 @@ function updateFlowerData() {
         }
     }).filter(row => row !== null)
     const otherIncomeOptions = getOtherIncomeOptions()
-    const needAppend = false
+    let needAppend = false
     let otherIncomes = salary.otherIncome
         .map((answer, index) => {
-            if (answer && otherIncomeOptions[index] == '其他') {
+            if (answer && otherIncomeOptions[index] === '其他') {
                 needAppend = true
                 return null
             } else if (answer) {

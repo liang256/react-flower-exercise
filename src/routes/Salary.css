@@ -1,0 +1,96 @@
+.salaryContainer {
+    width: 400px;
+    margin: 0 auto;
+}
+
+.salaryContainer input[type=text] {
+    outline: none;
+    border: solid lightgray 1px;
+    border-radius: 2px;
+}
+
+.salaryContainer .marginLeft{
+    margin-left: 0.5em;
+}
+
+.salaryContainer .salaryInput {
+    font-size: 16px;
+    padding: .5em .1em;
+}
+
+.salaryContainer input[type=text]:focus {
+    border: solid black 1px;
+}
+
+/* Customize the label (the container) */
+.salaryContainer .labelContainer {
+    color: gray;
+    display: block;
+    position: relative;
+    padding-left: 1.5em;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.salaryContainer .labelContainer.checked {
+    color: black;
+}
+  
+/* Hide the browser's default checkbox */
+.salaryContainer .labelContainer .checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.salaryContainer .labelContainer .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1.1em;
+    width: 1.1em;
+    background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.salaryContainer .labelContainer:hover .checkbox ~ .checkmark {
+    background-color: #ccc;     
+}
+
+/* When the checkbox is checked, add a blue background */
+.salaryContainer .labelContainer .checkbox:checked ~ .checkmark {
+    background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.salaryContainer .labelContainer .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.salaryContainer .labelContainer .checkbox:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.salaryContainer .labelContainer .checkmark:after {
+    left: 5px;
+    top: 2.8px;
+    width: 3px;
+    height: 7px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
