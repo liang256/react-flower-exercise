@@ -3,9 +3,9 @@ import './Info.css'
 
 function Info(props) {
   return (
-    <div class="tooltip">
+    <div className="tooltip">
         &#9432;
-        {props.text !== '' && <span class="tooltiptext">{props.text}</span>}
+        {props.text !== '' && <span className="tooltiptext">{props.text}</span>}
     </div>
   )
 }
