@@ -23,34 +23,38 @@ function Flower() {
     const skillContents = []
     const salaryContents = []
     const placeContents = []
-
-    data.forEach(content => {
-      switch (content.category) {
-        case 'purpose':
-          purposeContents.push(content)
-          break
-        case 'knowledge':
-          knowledgeContents.push(content)
-          break
-        case 'env':
-          envContents.push(content)
-          break
-        case 'colleague':
-          colleagueContents.push(content)
-          break
-        case 'skill':
-          skillContents.push(content)
-          break
-        case 'salary':
-          salaryContents.push(content)
-          break
-        case 'place':
-          placeContents.push(content)
-          break
-        default:
-      }
-    })
-
+    if (Array.isArray(data)) {
+      data.forEach(content => {
+        if (content !== Object(content)) {
+          return
+        }
+        switch (content.category) {
+          case 'purpose':
+            purposeContents.push(content)
+            break
+          case 'knowledge':
+            knowledgeContents.push(content)
+            break
+          case 'env':
+            envContents.push(content)
+            break
+          case 'colleague':
+            colleagueContents.push(content)
+            break
+          case 'skill':
+            skillContents.push(content)
+            break
+          case 'salary':
+            salaryContents.push(content)
+            break
+          case 'place':
+            placeContents.push(content)
+            break
+          default:
+        }
+      })
+    }
+  
     const handleInitClick = () => {
       setData(initFlowerData)
     }
