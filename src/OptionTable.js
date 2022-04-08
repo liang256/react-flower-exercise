@@ -7,7 +7,7 @@ import NewFactorInput from './NewFactorInput'
 import Info from './Info'
 
 function OptionTable (props) {
-  const defaultFactors = props.cate == 'colleague' ? ['易怒 (範例)'] : []
+  const defaultFactors = (props.cate === 'colleague') ? ['易怒 (範例)'] : []
   const [factors, setFactors] = useState(defaultFactors)
   const [editingFactorIndex, setEditingFactorIndex] = useState(null)
   const [nextStepBtnEnable, setNextStepBtnEnable] = useState(false)
@@ -74,7 +74,7 @@ function OptionTable (props) {
     const colDesc = getColDesc(props.cate, props.title)
 
     if (colDesc === undefined) {
-      return <div>unvalid category and title given</div>
+      return <div className='row center'>unvalid category and title given</div>
     }
 
     return (
@@ -85,7 +85,10 @@ function OptionTable (props) {
                       <span className='header'>{colDesc[0].header}</span>
                   </div>
                   <div className='column row space-evenly'>
-                      <span className='header'>{colDesc[1].header} <Info text={colDesc[1].placeholder}/></span>
+                      <span className='header'>
+                        {colDesc[1].header} 
+                        <Info text={colDesc[1].placeholder}/>
+                      </span>
                   </div>
               </div>
               <div className='row'>
@@ -120,26 +123,6 @@ function OptionTable (props) {
     )
 
 }
-
-// function Factor (props) {
-//   return (
-//         <div
-//             className='editableFactor'
-//             onClick={(e) => { e.stopPropagation(); props.onClick() }}
-//         >
-//             <button className='factorDeleteButton' onClick={(e) => { e.stopPropagation(); props.onClickDelete() }}>
-//               <span>x</span>
-//             </button>
-//             <span className='factorText'>
-//             {
-//                 props.isEditing
-//                   ? <input className='factorEditingInput' defaultValue={props.value} onKeyDown={(e) => props.onKeyDown(e)} autoFocus></input>
-//                   : props.value
-//             }
-//             </span>
-//         </div>
-//   )
-// }
 
 function unique (arr) {
   return [...new Set(arr)]

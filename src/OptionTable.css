@@ -33,60 +33,6 @@
     margin: 1rem;
 }
 
-/* .editableFactor {
-    background-color: orange;
-    border: none;
-    border-radius: 10px;
-    height: fit-content;
-    display: flex;
-    align-items: center;
-    position: relative;
-    padding: .8em;
-    margin: 1rem .5rem;
-    cursor: pointer;
-} */
-
-/* .factorText {
-    color: white;
-    font-size: 20px;
-    font-weight: 400;
-} */
-
-/* .factorDeleteButton {
-    --fontSize: 12px;
-    border-radius: 100%;
-    background-color: black;
-    height: 21px;
-    width: 21px;
-    border: none;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: var(--fontSize);
-    position: absolute;
-    top: calc(var(--fontSize) * -1);
-    right: calc(var(--fontSize) * -1);
-    margin: 0;
-    z-index: 1;
-}
-
-.factorDeleteButton span {
-    position: absolute;
-    top: 3px;
-    left: 7px;
-} */
-
-/* .factorEditingInput { */
-    /* background-color: transparent; */
-    /* border: 0px;
-    text-decoration: none;
-    outline: none;
-    height: 2em;
-    border-radius: 5px; */
-    /* opacity: 50%; */
-/* } */
-
 .factorContainer {
     position: relative;
     flex-wrap: wrap;
@@ -102,6 +48,7 @@
     color: gray;
     font-size: 14px;
     /* background-color: aqua; */
+    display: flex;
     align-content: flex-start
 }
 

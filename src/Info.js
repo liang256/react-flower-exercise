@@ -2,10 +2,16 @@ import React from 'react'
 import './Info.css'
 
 function Info(props) {
+  const hasValue = (props.text !== '' && props.text !== null)
+
+  if (!hasValue) {
+    return <></>
+  }
+
   return (
     <div className="tooltip">
         &#9432;
-        {props.text !== '' && <span className="tooltiptext">{props.text}</span>}
+        <span className="tooltiptext">{props.text}</span>
     </div>
   )
 }
