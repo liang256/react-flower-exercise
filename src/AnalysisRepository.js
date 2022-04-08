@@ -25,7 +25,6 @@ export function initAnalysis(id) {
     const qestions = getQuestions()
     const answer = Array(qestions.length).fill(false)
     analysis[id] = answer
-    // console.log('init', analysis)
     sessionStorage.setItem('analysis', JSON.stringify(analysis))
     return answer
 }

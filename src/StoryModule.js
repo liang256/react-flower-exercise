@@ -15,7 +15,6 @@ export function getAllAnalysis() {
 }
 
 export function getAnalysisByStoyId(arr, id) {
-    // console.log('get stry by id', (arr[id] === undefined || arr[id].isFinished === undefined || arr[id].answers === undefined))
     return (
             arr[id] === undefined
             || arr[id] === null
@@ -61,9 +60,7 @@ export function getStory(stories, id) {
         ? {title: `我的第 ${id + 1} 個故事`, content: null}
         : stories[id]
     if (isNewStory) {
-        // console.log('is arr',Array.isArray(stories))
         stories.push(story)
-        // console.log('hi', id, newStories)
         sessionStorage.setItem('stories', JSON.stringify(stories))
         initAnalysis(id)
     }

@@ -28,7 +28,6 @@ export default function Story() {
         contentInputRef.current.value = targetStory.content
         titleInputRef.current.value = targetStory.title
     }
-    console.log('sotry is new', isNewStory)
 
     const handleTitleInputKeyDown = (e) => {
         console.log(e.target.value)
@@ -70,7 +69,6 @@ export default function Story() {
                 <h2 
                     className={titleEditing ? 'storyTitle hidden' : 'storyTitle'}
                     onClick={(e) => {
-                        console.log('title click')
                         e.stopPropagation()
                         if (!titleEditing) {
                             setTitleEditing(true)
@@ -96,7 +94,6 @@ export default function Story() {
                     onChange={(e) => {
                         let newStories = stories
                         newStories[storyId]['content'] = e.target.value
-                        console.log('on change', newStories)
                         sessionStorage.setItem('stories', JSON.stringify(newStories))
                     }}
                     placeholder = {(

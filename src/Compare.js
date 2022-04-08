@@ -25,9 +25,9 @@ class Compare extends React.Component {
     // check if game end
     if (queue.length === 0) {
       // check if same score
-      console.log('end, checking if need next round...')
+      // console.log('end, checking if need next round...')
       const score = countScore(history, this.props.factors)
-      console.log('print score', score)
+      // console.log('print score', score)
       const scoreFactorIdMap = {}
       for (const factor of score) {
         if (scoreFactorIdMap[factor.score] === undefined) {
@@ -35,8 +35,8 @@ class Compare extends React.Component {
         }
         scoreFactorIdMap[factor.score].push(factor.id)
       }
-      console.log('print out score map:')
-      console.log(scoreFactorIdMap)
+      // console.log('print out score map:')
+      // console.log(scoreFactorIdMap)
       let needNextRound = false
       for (const score in scoreFactorIdMap) {
         // console.log(factorIds)
@@ -47,7 +47,7 @@ class Compare extends React.Component {
         }
       }
       if (needNextRound) { 
-        console.log('yes, we need next round...')
+        // console.log('yes, we need next round...')
         statePoint *= 0.5
       }
     }
@@ -66,13 +66,10 @@ class Compare extends React.Component {
       const history = this.state.history
       const factors = this.props.factors
       const score = countScore(history, factors)
-      // console.log('final his', history)
-      // console.log('final score', score)
       const sortedFactors = score.sort((a, b) => {
         // sort is asc
         return a.score - b.score
       })
-      // console.log(factors, sortedFactors)
       const showScoreName = []
       const showScore = []
       sortedFactors.forEach((row, i) => {

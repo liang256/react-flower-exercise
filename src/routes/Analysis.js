@@ -15,13 +15,10 @@ function Analysis() {
 
     const handleCheckBoxClick = (storyId, questionId, isChecked) => {
         const analysis = getAllAnalysis()
-        // console.log(storyId, questionId, isChecked)
         analysis[storyId]['answers'][questionId] = isChecked
         analysis[storyId]['isFinished'] = true
-        console.log(analysis[storyId], analysis[storyId][questionId])
         sessionStorage.setItem('analysis', JSON.stringify(analysis))
     }
-    // console.log(questions)
     const questionRows = []
     for (let index = 0; index < questions.length; index++) {
         questionRows.push(
