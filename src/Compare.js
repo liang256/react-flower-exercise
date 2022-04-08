@@ -97,14 +97,14 @@ class Compare extends React.Component {
               onClick={updateRow(
                 this.props.cate, 
                 this.props.title, 
-                sortedFactors.reverse().map(factor => factors[factor.id])
+                sortedFactors.reverse().map(factor => factors[factor.id]).slice(0, 10)
               )}
             />
             : <LinkButton
               to={
                 '/rewrite?cate=' + this.props.cate
                 + '&title=' + this.props.title
-                + '&factors=' + sortedFactors.reverse().map(factor => factors[factor.id])
+                + '&factors=' + sortedFactors.reverse().map(factor => factors[factor.id]).slice(0, 10)
               }
               text = 'Next'
             />}
