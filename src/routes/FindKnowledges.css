@@ -21,7 +21,8 @@
 
 .FindKnowledgeContainer .clearBtn {
     font-size: 12px;
-    color: gray;
+    font-weight: 100;
+    color: black;
     border: gray 1px solid;
     height: 33px;
     margin: 1em;

@@ -1,3 +1,14 @@
 .draggable {
     cursor: grab;
 }
+
+.droppable .extraTextContainer {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.droppable .extraTextContainer p{
+    color: lightgray;
+}

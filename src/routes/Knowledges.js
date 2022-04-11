@@ -30,7 +30,7 @@ function Knowledges() {
     }
 
     knowledges.map(kn => {
-        boxes[kn.category].push(kn)
+        return boxes[kn.category].push(kn)
     })
 
     const handleDragStart = (e, item) => {
@@ -70,7 +70,8 @@ function Knowledges() {
             .sort(compareByDistance)
             .slice(0, 5)
             .map(f => f.name)
-        
+        // 如果第一象限(有專業知識且有興趣)的元素不足 5，
+        // 以第四象限的的領域補足至 5
         if (topFactors.length < 5) {
             topFactors = topFactors.concat(
                 boxes.bottomRight
@@ -99,7 +100,7 @@ function Knowledges() {
                     propClassName='dragfactor sorted'
                     onDragStart={handleDragStart}
                     handleDragStart = {handleDragStart}
-                    // renderProps={renderProps}
+                    extraText='你沒什麼熱情但具備很多專業知識的領域'
                 />
                 <Droppable 
                     name='topRight' 
@@ -108,7 +109,7 @@ function Knowledges() {
                     className='box'
                     propClassName='dragfactor sorted'
                     handleDragStart = {handleDragStart}
-                    // renderProps={renderProps}
+                    extraText='你很有熱情也具備很多專業知識的領域'
                 />
             </div>
             <div className='row'>
@@ -119,7 +120,7 @@ function Knowledges() {
                     className='box'
                     propClassName='dragfactor sorted'
                     handleDragStart = {handleDragStart}
-                    // renderProps={renderProps}
+                    extraText='你沒什麼熱情也不具備相關專業知識的領域'
                 />
                 <Droppable 
                     name='bottomRight' 
@@ -128,11 +129,14 @@ function Knowledges() {
                     className='box'
                     propClassName='dragfactor sorted'
                     handleDragStart = {handleDragStart}
-                    // renderProps={renderProps}
+                    extraText='你很有熱情但缺乏相關專業知識的領域'
                 />
             </div>
         </div>
-
+        <div className='instructionContainer'>
+            <p>將下面元素拖拉放入上面 4 個象限中。愈靠近右上角代表你愈有興趣和專業，最後排序會愈前面。</p>
+            <p>請至少放 5 個領域至右側 (高熱情) 框框。</p>
+        </div>
         <Droppable 
             name='unsorted' 
             properties={boxes.unsorted} 
@@ -145,7 +149,7 @@ function Knowledges() {
             <LinkButton
                 to = '/'
                 text = 'Save'
-                enable = {boxes.unsorted.length === 0 ? true : false}
+                enable = {boxes.topRight.length + boxes.bottomRight.length >= 5 ? true : false}
                 onClick = {handleSave}
             />
         </div>

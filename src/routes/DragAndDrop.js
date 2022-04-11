@@ -37,10 +37,15 @@ export function Droppable(props) {
 
   return (
     <div 
-        className={'droppable ' + props.className == undefined ? '' : props.className}
+        className={'droppable ' + (props.className === undefined ? '' : props.className)}
         onDragOver={(e) => handleDragOver(e)}
         onDrop={props.onDrop}
     >
+        
+        {
+          props.extraText !== undefined &&
+          <div className='extraTextContainer'><p>{props.extraText}</p></div>
+        }
         {renderDraggables(props.properties)}
     </div>
   )
