@@ -111,20 +111,23 @@ function FindKnowledges() {
     }
 
     const generateFactors = (cate) => {
-        return factors.filter(f => f.cate === cate)
-            .map((f, index) => {
-                return (
+        const collect = []
+        for (let i=0; i<factors.length; i++) {
+            if (factors[i].cate === cate) {
+                collect.push(
                     <Factor 
-                        key={'_'+index+f.name}
-                        value={f.name}
-                        index={index}
+                        key={'_' + i + factors[i].name}
+                        value={factors[i].name}
+                        index={i}
                         updateFactor={updateFactor}
                         startToEditFactor={startToEditFactor}
                         removeFactor={removeFactor}
-                        isEditing={editingFactorIndex == index ? true : false}
+                        isEditing={editingFactorIndex === i ? true : false}
                     />
                 )
-            })
+            }
+        }
+        return collect
     }
 
     const disableEditing = () => {
