@@ -1,7 +1,8 @@
 # 花朵練習 Flower Exercise
 
-花朵練習是「你可以不遷就」中的提到的職涯探索練習，分為 7 的部分，沒有特定順序，可以從你有興趣的開始。
-[Try it](https://flower-exercise.web.app/)
+花朵練習是[「你可以不遷就」](https://www.books.com.tw/products/0010773890)中的提到的職涯探索練習，分為 7 的部分，沒有特定順序，可以從你有興趣的開始。
+
+➡️ [Try it](https://flower-exercise.web.app/)
 
 ## Available Scripts
 
